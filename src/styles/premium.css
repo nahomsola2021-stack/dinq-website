@@ -1,0 +1,354 @@
+:root {
+  /* Warm Earthy Editorial Palette */
+  --color-canvas: #F5E9DA;
+  --color-card: #FFF9F2;
+  --color-text-primary: #302019;
+  --color-text-secondary: #78685E;
+  --color-terracotta: #D95F49;
+  --color-gold: #DDAA42;
+  --color-border: #E7D0B8;
+  --color-dark: #332823;
+  --color-dark-deep: #1F1713;
+
+  /* Ethiopian Tri-Colour Accent */
+  --color-eth-green: #078930;
+  --color-eth-yellow: #FCDD09;
+  --color-eth-red: #DA121A;
+
+  --font-serif: 'Cormorant Garamond', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-canvas);
+  color: var(--color-text-primary);
+  overflow-x: hidden;
+}
+
+/* Serif font family */
+.font-serif {
+  font-family: var(--font-serif);
+}
+
+.font-sans {
+  font-family: var(--font-sans);
+}
+
+/* Selection and focus rings */
+::selection {
+  background: rgba(217, 95, 73, 0.2);
+  color: #302019;
+}
+
+*:focus-visible {
+  outline: 2px solid var(--color-terracotta);
+  outline-offset: 3px;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #F5E9DA;
+}
+::-webkit-scrollbar-thumb {
+  background: #D95F49;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #C44E39;
+}
+
+/* No scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Eyebrow styling - refined, quiet, editorial */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--color-terracotta);
+}
+
+.eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 16px;
+  height: 1.5px;
+  background-color: var(--color-terracotta);
+}
+
+/* Ethiopian tri-colour brand motif */
+.eth-line {
+  height: 3px;
+  width: 100%;
+  background: linear-gradient(
+    90deg,
+    #078930 0%,
+    #078930 33.33%,
+    #FCDD09 33.33%,
+    #FCDD09 66.66%,
+    #DA121A 66.66%,
+    #DA121A 100%
+  );
+}
+
+/* Outlined oversized editorial numerals */
+.numeral {
+  font-family: var(--font-serif);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 700;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(217, 95, 73, 0.35);
+  user-select: none;
+}
+
+.numeral-light {
+  -webkit-text-stroke: 1px rgba(217, 95, 73, 0.35);
+}
+
+.numeral-dark {
+  -webkit-text-stroke: 1px rgba(221, 170, 66, 0.4);
+}
+
+/* Warm terracotta glow background effect */
+.gold-glow {
+  background: radial-gradient(
+    circle at 50% 20%,
+    rgba(217, 95, 73, 0.12) 0%,
+    rgba(221, 170, 66, 0.04) 45%,
+    transparent 70%
+  );
+}
+
+/* Gold / Terracotta gradient text */
+.text-gold-gradient {
+  background: linear-gradient(135deg, #FFF9F2 20%, #DDAA42 60%, #D95F49 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-terracotta {
+  color: #D95F49;
+}
+
+/* Surfaces */
+.glass {
+  background: rgba(255, 249, 242, 0.92);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--color-border);
+}
+
+.glass-dark {
+  background: rgba(31, 23, 19, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(231, 208, 184, 0.15);
+}
+
+/* Subtle film grain overlay */
+.grain {
+  position: relative;
+}
+
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 0.55;
+}
+
+/* Human-Designed Restrained Buttons - Soft 6-8px radius, no excessive bubbles */
+.btn-terracotta,
+.btn-gold {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #FFF9F2;
+  background: #D95F49;
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 2px 8px rgba(217, 95, 73, 0.22);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-terracotta:hover,
+.btn-gold:hover {
+  background: #C44E39;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(217, 95, 73, 0.3);
+}
+
+.btn-dark {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #FFF9F2;
+  background: #302019;
+  border: 1px solid rgba(231, 208, 184, 0.2);
+  border-radius: 8px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-dark:hover {
+  transform: translateY(-1px);
+  background: #1F1713;
+  border-color: #D95F49;
+  color: #FFF9F2;
+}
+
+.btn-outline-terracotta,
+.btn-outline-gold {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.6rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #302019;
+  background: transparent;
+  border: 1px solid #E7D0B8;
+  border-radius: 8px;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, border-color 0.2s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.btn-outline-terracotta:hover,
+.btn-outline-gold:hover {
+  transform: translateY(-1px);
+  background: #FFF9F2;
+  border-color: #D95F49;
+  color: #D95F49;
+}
+
+/* Category Tab - Thin Terracotta Underline */
+.category-tab {
+  position: relative;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: #78685E;
+  padding-bottom: 0.5rem;
+  white-space: nowrap;
+  transition: color 0.2s ease;
+  cursor: pointer;
+}
+
+.category-tab:hover {
+  color: #302019;
+}
+
+.category-tab.active {
+  color: #302019;
+  font-weight: 600;
+}
+
+.category-tab.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #D95F49;
+  border-radius: 1px;
+}
+
+/* Card hover animation - subtle, restrained */
+.card-editorial {
+  background-color: #FFF9F2;
+  border: 1px solid #E7D0B8;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(48, 32, 25, 0.04);
+  transition: border-color 0.25s ease, box-shadow 0.25s ease, transform 0.25s ease;
+}
+
+.card-editorial:hover {
+  border-color: #D95F49;
+  box-shadow: 0 6px 20px rgba(48, 32, 25, 0.08);
+  transform: translateY(-2px);
+}
+
+.card-editorial:hover .card-image {
+  transform: scale(1.025);
+}
+
+/* Marquee ribbon */
+.marquee {
+  display: flex;
+  overflow: hidden;
+  user-select: none;
+  gap: 2rem;
+}
+
+.marquee-content {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: space-around;
+  min-width: 100%;
+  gap: 2rem;
+  animation: scrollMarquee 38s linear infinite;
+}
+
+.marquee:hover .marquee-content {
+  animation-play-state: paused;
+}
+
+@keyframes scrollMarquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+
+/* Prefers-reduced-motion: disable all looping animation and transitions */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .marquee-content {
+    animation: none !important;
+  }
+}

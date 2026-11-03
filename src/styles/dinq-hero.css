@@ -1,0 +1,50 @@
+/* Add to your global stylesheet. All motion is disabled under prefers-reduced-motion. */
+
+/* The one orchestrated moment: the arch opens like a window on first load */
+@keyframes dinq-reveal {
+  from { clip-path: inset(100% 0 0 0 round 999px 999px 28px 28px); }
+  to   { clip-path: inset(0 0 0 0 round 999px 999px 28px 28px); }
+}
+.dinq-reveal { animation: dinq-reveal 1.4s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+/* Copy swaps when the slide changes (keyed by slide index in the component) */
+@keyframes dinq-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+.dinq-rise { animation: dinq-rise 0.9s cubic-bezier(0.16, 1, 0.3, 1) both; }
+
+@keyframes dinq-fade { from { opacity: 0; } to { opacity: 1; } }
+.dinq-fade { animation: dinq-fade 0.8s ease both; }
+
+/* Slow drift on the active image */
+@keyframes dinq-drift {
+  from { transform: scale(1.02) translate3d(0, 0, 0); }
+  to   { transform: scale(1.12) translate3d(-1.5%, -1%, 0); }
+}
+.dinq-drift { animation: dinq-drift 8s ease-out forwards; }
+
+/* Slide timer: matches the 7000ms interval in DinqHero */
+@keyframes dinq-progress { from { width: 0; } to { width: 100%; } }
+.dinq-progress { animation: dinq-progress 7s linear forwards; }
+
+@media (prefers-reduced-motion: reduce) {
+  .dinq-reveal, .dinq-rise, .dinq-fade, .dinq-drift { animation: none; }
+  .dinq-progress { animation: none; width: 100%; }
+}
+
+/* ------------------------------------------------------------------
+   Wiring in Home.tsx
+
+   import { DinqHero } from '../components/home/DinqHero';
+   import { ExperienceGrid } from '../components/tours/ExperienceCard';
+
+   // 1. Replace section "1. Cinematic Hero" AND <TripFinder /> with:
+   <DinqHero slides={heroSlides} onBook={openBooking} />
+
+   // 2. Replace the horizontal TourCard list in "6. Featured Tours" with:
+   <ExperienceGrid tours={featuredTours} onQuickView={setActiveModalTour} />
+
+   // 3. Section wrapper for the grid: make it dark so cards sit in the same atmosphere
+   <section className="bg-[#14100D] py-24 md:py-32"> ... </section>
+------------------------------------------------------------------ */

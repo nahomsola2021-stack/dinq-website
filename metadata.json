@@ -1,0 +1,6 @@
+{
+  "name": "Dinq Tour, Travel & Events",
+  "description": "Discover Ethiopia Beyond the Ordinary with Dinq Tour, Travel & Events. Curated safaris, mountain trekking, cultural festivals, Shewa escapes, and signature expeditions.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

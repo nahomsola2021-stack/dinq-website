@@ -1,0 +1,700 @@
+/**
+ * Dinq Tour, Travel & Events — Cultural & Historical Ethiopia
+ * 10 Shewa Destinations & 5 Signature Journeys (Shewa Land Escape)
+ * 12 Festivals & 4 Festival Journeys
+ * Kundudo Wild Horse & Babile Elephant Expedition
+ * Master Content Aligned Verbatim with Zerihun Alemayehu's Official Specifications
+ */
+
+// 10 Shewa Destinations
+export interface ShewaDestination {
+  id: string;
+  numeral: string;
+  name: string;
+  kicker: string;
+  summary: string;
+  italicNote?: string;
+  tags: string[];
+  signature: string;
+  experiencePoints: string[];
+  distanceFromAddis?: string;
+  image: string;
+}
+
+export const SHEWA_DESTINATIONS: ShewaDestination[] = [
+  {
+    id: 'ensaro',
+    numeral: '01',
+    name: 'Ensaro',
+    kicker: 'Mountains, Valleys & Authentic Rural Shewa',
+    summary: 'Travel into the highlands of Ensaro, where mountain scenery, valleys, farming landscapes and traditional communities create an authentic rural Ethiopian experience.',
+    italicNote: 'Highland ridges and deep pastoral valleys of undisturbed rural Shewa.',
+    tags: ['Hiking', 'Mountain Landscapes', 'Traditional Villages', 'Farming', 'Local Cuisine', 'Community Encounters'],
+    signature: 'Authentic Rural Shewa',
+    experiencePoints: [
+      'Hiking and scenic valley walks',
+      'Panoramic mountain landscapes',
+      'Traditional Shewan villages',
+      'Farming and rural homestead life',
+      'Local cuisine preparation',
+      'Heartfelt community encounters',
+      'Landscape and cultural photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793329787/jdqeaabd1mjgj44ywv0z.jpg',
+  },
+  {
+    id: 'karama-highlands',
+    numeral: '02',
+    name: 'Karama / Karmaş Highlands',
+    kicker: 'Highland Beauty & Living Traditions',
+    summary: 'Discover peaceful highland landscapes shaped by agriculture, traditional communities and generations of rural life.',
+    italicNote: 'Peaceful highland beauty preserved through generations of agrarian tradition.',
+    tags: ['Mountain Walks', 'Rural Life', 'Villages', 'Culture', 'Nature', 'Photography', 'Local Food'],
+    signature: 'Highland Beauty & Traditions',
+    experiencePoints: [
+      'Mountain walks across peaceful plateaus',
+      'Everyday rural life encounters',
+      'Traditional village exploration',
+      'Living highland culture & crafts',
+      'Untouched natural scenery',
+      'Community landscape photography',
+      'Tasting authentic local highland food',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793329914/yskrt79ifpnxyfqsqkle.jpg',
+  },
+  {
+    id: 'menz',
+    numeral: '03',
+    name: 'Menz',
+    kicker: 'The Highlands of Tradition & History',
+    summary: 'Journey through the dramatic landscapes of Menz, where highland communities, agriculture, traditional lifestyles and powerful cultural identity meet.',
+    italicNote: 'Home to traditional sheep-wool weaving guilds, highland horses, and deep pride.',
+    tags: ['Highland Trekking', 'Villages', 'Rural Life', 'Culture', 'Farming', 'Local Cuisine', 'Photography'],
+    signature: 'The Menz Highland Experience',
+    experiencePoints: [
+      'Highland trekking across rolling moorlands',
+      'Traditional Menz stone and thatch villages',
+      'Rural life and pastoral traditions',
+      'Highland sheep wool spinning & crafts',
+      'Farming and crop cultivation',
+      'Local culinary tasting sessions',
+      'Storytelling with village elders',
+      'Cultural and landscape photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793329986/en1jg10r1zfjzfaxiwq2.jpg',
+  },
+  {
+    id: 'molale',
+    numeral: '04',
+    name: 'Molale',
+    kicker: 'Highland Wilderness & Mountain Adventure',
+    summary: 'Explore the open highlands of Molale, where rugged mountains, expansive landscapes, wildlife and rural communities create a remarkable outdoor experience.',
+    italicNote: 'Open expanses of highland wilderness where Geladas forage along escarpment rims.',
+    tags: ['Hiking', 'Mountain Landscapes', 'Wildlife', 'Rural Communities', 'Photography', 'Nature'],
+    signature: 'The Molale Highland Expedition',
+    experiencePoints: [
+      'Adventurous mountain hiking trails',
+      'Expansive panoramic landscapes',
+      'Wildlife observation including Gelada troops',
+      'Authentic rural community encounters',
+      'Highland nature exploration',
+      'Community-based tourism initiatives',
+      'Golden hour landscape photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793330061/kwzxq3vklb615cmxk6jw.jpg',
+  },
+  {
+    id: 'meneliks-window',
+    numeral: '05',
+    name: 'Menelik\'s Window',
+    kicker: 'A View Into the Royal History of Shewa',
+    summary: 'Discover a landscape associated with the history of Emperor Menelik II and the historic highlands of Shewa. Stand above the landscape, hear the stories of the past and experience the dramatic scenery that surrounds this historic part of Ethiopia.',
+    italicNote: 'Where Emperor Menelik II looked out from the highland escarpment edge.',
+    tags: ['Royal Heritage', 'History', 'Scenic Views', 'Mountain Landscapes', 'Storytelling', 'Photography'],
+    signature: 'The Royal View of Shewa',
+    experiencePoints: [
+      'Royal heritage exploration & historical sites',
+      'Historical oral storytelling by local experts',
+      'Breathtaking panoramic escarpment views',
+      'Dramatic mountain and abyss landscapes',
+      'Atmospheric mountain photography',
+      'Connecting royal history with nature',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793330143/hswofj5j2tdb73vcdije.webp',
+  },
+  {
+    id: 'ankober',
+    numeral: '06',
+    name: 'Ankober',
+    kicker: 'THE ROYAL HIGHLANDS OF SHEWA',
+    summary: 'Walk through one of the most important historic landscapes of Shewa, surrounded by dramatic escarpments, mountain villages and extraordinary highland views. Ankober connects royal history, mountain landscapes and living communities in one remarkable destination.',
+    italicNote: 'The 18th-century royal capital perched on the edge of the great eastern escarpment.',
+    tags: ['Royal History', 'Historic Sites', 'Mountain Hiking', 'Villages', 'Scenic Views', 'Culture'],
+    signature: 'The Royal Highlands Journey',
+    experiencePoints: [
+      'Exploration of royal palaces and ruins',
+      'Visits to historic hilltop churches',
+      'Mountain hiking along misty ridges',
+      'Traditional Shewan stone villages',
+      'Sweeping views down to the Afar Rift',
+      'Living mountain culture & traditions',
+      'Landscape and architectural photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793330216/jbfqw42lvlgou9z5kovl.jpg',
+  },
+  {
+    id: 'ankober-escarpment',
+    numeral: '07',
+    name: 'Ankober Escarpment',
+    kicker: 'Cliffs, Valleys & Endless Horizons',
+    summary: 'Experience one of Shewa\'s most dramatic landscapes. Follow the escarpment through breathtaking viewpoints, deep valleys and mountain terrain while discovering the communities and natural environment of the highlands.',
+    italicNote: 'Vertical cliff drops plunging into endless eastern desert horizons.',
+    tags: ['Trekking', 'Scenic Viewpoints', 'Photography', 'Nature', 'Mountain Landscapes', 'Community Encounters'],
+    signature: 'Edge of the Highlands',
+    experiencePoints: [
+      'Trekking along dramatic precipices and ridgelines',
+      'Spectacular viewpoints overlooking Afar lowlands',
+      'Raptor and endemic Ankober Serin observation',
+      'Pristine mountain nature walks',
+      'Encounters with highland cliff-side communities',
+      'Dramatic sunrise and mist photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567661/jophpqinoqkc7ddi8kuh.jpg',
+  },
+  {
+    id: 'debre-libanos',
+    numeral: '08',
+    name: 'Debre Libanos',
+    kicker: 'Sacred Heritage • Cliffs • Valleys',
+    summary: 'Discover a remarkable combination of Ethiopian spiritual heritage and dramatic natural scenery. Explore the monastery and surrounding highlands, experience the atmosphere of one of Ethiopia\'s important religious landscapes and connect with local traditions.',
+    italicNote: 'Founded by Saint Tekle Haymanot above the plunging Jemma River Gorge.',
+    tags: ['Sacred Heritage', 'Monastery', 'Nature', 'Hiking', 'Mountain Landscapes', 'Local Culture'],
+    signature: 'The Sacred Highlands of Shewa',
+    experiencePoints: [
+      'Visits to the historic monastery museum and cave shrine',
+      'Spiritual heritage and ancient liturgical traditions',
+      'Walking across the historic stone Portuguese Bridge',
+      'Hiking along the sheer rim of the Jemma Gorge',
+      'Observing resident Gelada baboon troops',
+      'Local culture and traditional dining',
+      'Canyon and waterfall photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793330297/got4h6ntujnyh46rqwsx.jpg',
+  },
+  {
+    id: 'gorge-blue-nile-escarpment',
+    numeral: '09',
+    name: 'Gorge & Blue Nile Escarpment',
+    kicker: 'Where the Highlands Meet the Abyss',
+    summary: 'Enter one of Ethiopia\'s most spectacular landscape zones, where enormous gorges, cliffs, mountains and rural communities create unforgettable panoramic views.',
+    italicNote: 'Tremendous canyon abysses dropping over 1,000 meters into river valleys.',
+    tags: ['Scenic Drives', 'Hiking', 'Viewpoints', 'Photography', 'Nature', 'Rural Communities'],
+    signature: 'The Great Shewa Escarpment',
+    experiencePoints: [
+      'Scenic canyon drives through dramatic hairpins',
+      'Hiking along cliff tops with 360-degree vistas',
+      'Panoramic gorge viewpoints looking toward the Blue Nile',
+      'Landscape exploration & geological discovery',
+      'Visiting secluded rural canyon homesteads',
+      'Dramatic canyon light and sunset photography',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567994/fwaftngzo8psjplplxix.jpg',
+  },
+  {
+    id: 'menz-ankober-highland-route',
+    numeral: '10',
+    name: 'Menz–Ankober Highland Route',
+    kicker: 'A JOURNEY THROUGH THE ROYAL LANDSCAPES OF SHEWA',
+    summary: 'Connect the highlands of Menz with the historic landscapes of Ankober through mountain roads, rural communities, traditional villages and spectacular escarpment views.',
+    italicNote: 'The grand highland traverse linking two crown jewels of Shewan heritage.',
+    tags: ['Mountain Trekking', 'Heritage', 'Traditional Villages', 'Farming', 'Local Cuisine', 'Coffee', 'Storytelling'],
+    signature: 'The Historic Highland Route',
+    experiencePoints: [
+      'Multi-day mountain trekking and overland traverse',
+      'In-depth royal and monastic heritage discovery',
+      'Authentic traditional villages and homestays',
+      'Highland farming and livestock traditions',
+      'Local culinary feasts & traditional coffee ceremonies',
+      'Cultural storytelling around evening hearths',
+      'Landscape, village, and portrait photography',
+      'Community-led sustainable tourism',
+    ],
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793568053/db324frrtz1hwhbcniqd.jpg',
+  },
+];
+
+// 5 Signature Shewa Journeys
+export const SHEWA_JOURNEYS = [
+  {
+    id: 'shewa-land-escape-signature',
+    numeral: '01',
+    name: 'Shewa Land Escape',
+    routeTitle: 'Ensaro → Menz → Molale → Ankober → Debre Libanos → Blue Nile Escarpment',
+    routeStops: ['Ensaro', 'Menz', 'Molale', 'Ankober', 'Debre Libanos', 'Blue Nile Escarpment'],
+    themes: ['Mountains', 'Heritage', 'Nature', 'Communities', 'Photography'],
+    summary: 'The master Shewan expedition connecting historic highlands, ancient monasteries, escarpment views, and welcoming rural communities in one complete journey.',
+  },
+  {
+    id: 'royal-shewa-heritage-route',
+    numeral: '02',
+    name: 'Royal Shewa Heritage Route',
+    routeTitle: 'Menelik\'s Window → Ankober → Historic Shewan Highlands',
+    routeStops: ['Menelik\'s Window', 'Ankober', 'Historic Shewan Highlands'],
+    themes: ['Royal Heritage', 'History', 'Mountains', 'Storytelling'],
+    summary: 'Follow the story of the Shewan kingdom through the palaces, historical vantage points, and mountain hermitages that shaped modern Ethiopian statehood.',
+  },
+  {
+    id: 'shewa-mountain-village-journey',
+    numeral: '03',
+    name: 'Shewa Mountain & Village Journey',
+    routeTitle: 'Menz → Molale → Ensaro → Highland Communities',
+    routeStops: ['Menz', 'Molale', 'Ensaro', 'Highland Communities'],
+    themes: ['Trekking', 'Villages', 'Rural Life', 'Culture', 'Nature'],
+    summary: 'A community-centered walking and overland journey immersing travelers in rural homesteads, traditional farming, local food, and highland hospitality.',
+  },
+  {
+    id: 'shewa-to-rift-valley',
+    numeral: '04',
+    name: 'Shewa to Rift Valley',
+    routeTitle: 'Shewan Highlands → Molale → Rift Valley → Melki / Batu / Ziway',
+    routeStops: ['Shewan Highlands', 'Molale', 'Rift Valley', 'Melki / Batu / Ziway'],
+    themes: ['Mountains', 'Lakes', 'Wildlife', 'Nature', 'Communities'],
+    summary: 'Descend from the cool afro-alpine ridges of Shewa down into the warm acacia woodlands, bird-rich freshwater lakes, and vibrant communities of the Rift Valley.',
+  },
+  {
+    id: 'shewa-photography-journey',
+    numeral: '05',
+    name: 'Shewa Photography Journey',
+    routeTitle: 'Ankober → Menz → Escarpments → Villages → Rift Valley',
+    routeStops: ['Ankober', 'Menz', 'Escarpments', 'Villages', 'Rift Valley'],
+    themes: ['Landscapes', 'Culture', 'Portraits', 'Heritage', 'Rural Life'],
+    summary: 'Crafted for photographers targeting dramatic escarpment cliffs, misty sunrise valleys, traditional stone architecture, and dignified cultural portraits.',
+  },
+];
+
+// 15 Shewa Community Experience points
+export const SHEWA_COMMUNITY_EXPERIENCE = [
+  'Traditional Shewan villages',
+  'Rural homesteads',
+  'Traditional houses',
+  'Farming and rural life',
+  'Traditional food preparation',
+  'Farm-to-table experiences',
+  'Ethiopian coffee ceremony',
+  'Local markets',
+  'Handcrafts',
+  'Traditional music',
+  'Cultural storytelling',
+  'Local knowledge',
+  'Community photography',
+  'Village walks',
+  'Community-based accommodation',
+];
+
+export const SHEWA_WHY = [
+  { title: 'MOUNTAINS', desc: 'Dramatic highlands, escarpments and panoramic landscapes.' },
+  { title: 'HISTORY', desc: 'Royal stories, historic places and centuries of living heritage.' },
+  { title: 'CULTURE', desc: 'Traditional communities, food, music, crafts and storytelling.' },
+  { title: 'NATURE', desc: 'Mountains, valleys, forests, lakes and diverse landscapes.' },
+  { title: 'COMMUNITY', desc: 'Meet local people and experience everyday life beyond conventional sightseeing.' },
+  { title: 'ADVENTURE', desc: 'Hiking, trekking, scenic drives, photography and outdoor exploration.' },
+];
+
+export const SHEWA_WHY_SIX = SHEWA_WHY;
+export const SHEWA_COMMUNITY_CHECKLIST = SHEWA_COMMUNITY_EXPERIENCE;
+
+export const SHEWA_DINQ_DIFFERENCE = {
+  quote: 'We don\'t simply take you to Shewa. We take you into its landscapes. Into its history. Into its villages. Into its stories. From a mountain sunrise to a village coffee ceremony, from royal history to rural life, every journey is designed to connect travelers with the real Ethiopia.',
+  lines: [
+    'WHERE MOUNTAINS MEET HISTORY.',
+    'WHERE ROYAL STORIES MEET LIVING CULTURE.',
+    'WHERE THE JOURNEY BECOMES THE EXPERIENCE.',
+    'EXPLORE THE HIGHLANDS. MEET THE PEOPLE. DISCOVER THE STORY.',
+  ],
+  tagline: 'Dinq Tour & Events — Discover Ethiopia Beyond the Ordinary.',
+};
+
+// 12 Festivals
+export interface FestivalItem {
+  id: string;
+  numeral: string;
+  name: string;
+  kicker: string;
+  summary: string;
+  italicNote?: string;
+  experiencePoints: string[];
+  signatureJourney?: string;
+  image: string;
+  typicalTimingBadge?: string;
+  amharicName?: string;
+  significance?: string;
+  culturalTips?: string[];
+  location?: string;
+  timing?: string;
+}
+
+export const FESTIVALS: FestivalItem[] = [
+  {
+    id: 'timket',
+    numeral: '01',
+    name: 'Timket',
+    kicker: 'THE ETHIOPIAN EPIPHANY',
+    summary: 'Timket is one of Ethiopia\'s most important Orthodox Christian celebrations, commemorating the Baptism of Jesus Christ. The celebration is marked by colorful processions, ceremonial traditions, prayers, chanting, music and large community gatherings. Travelers can experience the atmosphere of the celebration while learning about Ethiopian Orthodox traditions and the cultural practices surrounding Timket.',
+    italicNote: 'Commemorating the Baptism of Christ with white-robed vigils, sacred Tabot processions, and joyful water blessings.',
+    experiencePoints: [
+      'Religious Heritage',
+      'Processions',
+      'Traditional Music',
+      'Prayer & Ceremony',
+      'Cultural Dress',
+      'Photography',
+      'Community',
+    ],
+    signatureJourney: 'Timket in Gondar • Lalibela • Addis Ababa',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1789847248/gjwftoryuwyhroh0orkr.jpg',
+  },
+  {
+    id: 'meskel',
+    numeral: '02',
+    name: 'Meskel',
+    kicker: 'THE FINDING OF THE TRUE CROSS',
+    summary: 'Meskel is one of Ethiopia\'s most distinctive cultural and religious celebrations. At its heart is the Demera, a large ceremonial bonfire surrounded by singing, dancing, prayers and colorful community celebrations. The festival offers travelers a powerful opportunity to experience Ethiopia\'s religious heritage and public cultural traditions.',
+    italicNote: 'The lighting of the massive Demera ceremonial bonfire decorated with yellow Adey Abeba daisies.',
+    experiencePoints: [
+      'Demera Ceremony',
+      'Religious Heritage',
+      'Traditional Songs',
+      'Dance',
+      'Cultural Dress',
+      'Photography',
+      'Community',
+    ],
+    signatureJourney: 'Meskel in Addis Ababa • Historic Meskel Celebrations',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793566978/ksa0mjg5qqlnabetp4fh.avif',
+  },
+  {
+    id: 'enkutatash',
+    numeral: '03',
+    name: 'Enkutatash',
+    kicker: 'ETHIOPIAN NEW YEAR',
+    summary: 'Enkutatash marks the beginning of the Ethiopian New Year and is associated with renewal, family, community and the arrival of the new season. Travelers can experience traditional songs, flowers, family celebrations, local food and the distinctive atmosphere of the Ethiopian New Year.',
+    italicNote: 'Welcoming the Ethiopian New Year with yellow Adey Abeba flowers, songs, and fresh beginnings.',
+    experiencePoints: [
+      'New Year Traditions',
+      'Flowers',
+      'Music',
+      'Family Culture',
+      'Local Food',
+      'Community',
+      'Photography',
+    ],
+    signatureJourney: 'Welcome the Ethiopian New Year',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567073/trccvysregxwm21add4z.webp',
+  },
+  {
+    id: 'irreechaa',
+    numeral: '04',
+    name: 'Irreechaa',
+    kicker: 'A MAJOR OROMO CULTURAL CELEBRATION',
+    summary: 'Irreechaa is an important Oromo thanksgiving celebration associated with gratitude, nature, community and cultural identity. The celebration brings people together through traditional dress, songs, dances, cultural expressions and community gatherings.',
+    italicNote: 'Millions gathering by sacred volcanic lakes to dip wet green grass in water and give thanks for peace and fertility.',
+    experiencePoints: [
+      'Oromo Culture',
+      'Traditional Dress',
+      'Music',
+      'Dance',
+      'Community',
+      'Cultural Heritage',
+      'Photography',
+    ],
+    signatureJourney: 'Irreechaa & Oromo Cultural Experience',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567137/hbx4j7ejmfxkzgyylmcq.jpg',
+  },
+  {
+    id: 'fichee-chambalaalla',
+    numeral: '05',
+    name: 'Fichee–Chambalaalla',
+    kicker: 'SIDAMA NEW YEAR & CULTURAL HERITAGE',
+    summary: 'Fichee-Chambalaalla is a traditional Sidama New Year celebration that brings communities together through cultural traditions, food, music, dance and social gatherings. It provides travelers with an opportunity to discover Sidama heritage through a community-centered cultural experience.',
+    italicNote: 'UNESCO Intangible Cultural Heritage honoring peaceful coexistence and communal feasting.',
+    experiencePoints: [
+      'Sidama Culture',
+      'New Year Traditions',
+      'Food',
+      'Music',
+      'Dance',
+      'Community',
+      'Heritage',
+      'Photography',
+    ],
+    signatureJourney: 'Fichee-Chambalaalla Cultural Journey',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567211/j7noivauxpdq5knpxg7m.jpg',
+  },
+  {
+    id: 'oromo-cultural-gada-celebrations',
+    numeral: '06',
+    name: 'Oromo Cultural & Gada Celebrations',
+    kicker: 'LIVING TRADITIONS & COMMUNITY HERITAGE',
+    summary: 'Discover Oromo cultural traditions through community gatherings, ceremonies, traditional knowledge, music, dance, storytelling and cultural landscapes. These experiences can connect travelers with the deeper cultural traditions of communities across Oromia.',
+    italicNote: 'Indigenous democratic Gadaa heritage and living community rituals.',
+    experiencePoints: [
+      'Oromo Heritage',
+      'Gadaa Traditions',
+      'Community',
+      'Storytelling',
+      'Music',
+      'Dance',
+      'Traditional Knowledge',
+      'Photography',
+    ],
+    signatureJourney: 'Living Oromo Culture',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567266/wbtwyzcsosjutllwzpkr.jpg',
+  },
+  {
+    id: 'harar-cultural-celebrations',
+    numeral: '07',
+    name: 'Harar Cultural Celebrations',
+    kicker: 'THE LIVING CULTURE OF THE WALLED CITY',
+    summary: 'Harar offers a distinctive cultural experience shaped by its historic urban environment, Harari traditions, markets, architecture, cuisine and community life. Festival and cultural visits can be combined with exploration of Harar Jugol, traditional houses, markets and local culinary experiences.',
+    italicNote: 'Centuries of Islamic heritage, traditional Adare houses, and colorful market life inside the walls.',
+    experiencePoints: [
+      'Harari Culture',
+      'Walled City',
+      'Traditional Houses',
+      'Markets',
+      'Food',
+      'Music',
+      'Architecture',
+      'Photography',
+    ],
+    signatureJourney: 'The Harar Cultural Experience',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567333/jkdxghtcmmp8jgqcouus.jpg',
+  },
+  {
+    id: 'omo-valley-cultural-celebrations',
+    numeral: '08',
+    name: 'Omo Valley Cultural Celebrations',
+    kicker: 'LIVING CULTURE & COMMUNITY',
+    summary: 'Travel into the diverse cultural landscapes of southern Ethiopia and discover community celebrations, traditional arts, music, dance, food, crafts and local ways of life. The experience is built around respectful cultural interaction and locally guided encounters.',
+    italicNote: 'Respectful cultural interaction and celebrations across indigenous communities.',
+    experiencePoints: [
+      'Community',
+      'Traditional Arts',
+      'Music',
+      'Dance',
+      'Food',
+      'Crafts',
+      'Storytelling',
+      'Photography',
+    ],
+    signatureJourney: 'The Omo Cultural Expedition',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567394/tuolmseecmk6ajjjprfj.jpg',
+  },
+  {
+    id: 'ethiopian-music-cultural-festivals',
+    numeral: '09',
+    name: 'Ethiopian Music & Cultural Festivals',
+    kicker: 'SOUND • RHYTHM • CREATIVITY',
+    summary: 'Experience Ethiopia through music and cultural events that bring together traditional sounds, contemporary artists, dance, visual arts, food and creative communities. From traditional performances to modern Ethiopian music, these events offer another way to experience the country\'s evolving cultural scene.',
+    italicNote: 'From traditional Masinko and Krar strings to contemporary Ethio-jazz and vibrant dance.',
+    experiencePoints: [
+      'Live Music',
+      'Traditional Music',
+      'Contemporary Music',
+      'Dance',
+      'Art',
+      'Food',
+      'Nightlife',
+      'Photography',
+    ],
+    signatureJourney: 'Ethiopia Through Music',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567456/tpdayeowhkjf0zhmc44f.webp',
+  },
+  {
+    id: 'ethiopian-food-coffee-festivals',
+    numeral: '10',
+    name: 'Ethiopian Food & Coffee Festivals',
+    kicker: 'TASTE ETHIOPIA',
+    summary: 'Food and coffee are at the heart of Ethiopian social life. Discover Ethiopia through coffee, traditional cuisine, local ingredients, culinary traditions, cooking demonstrations, tasting experiences and community dining.',
+    italicNote: 'Taste the birthplace of coffee and share the communal table of Ethiopian cuisine.',
+    experiencePoints: [
+      'Ethiopian Coffee',
+      'Coffee Ceremony',
+      'Culinary Arts',
+      'Local Food',
+      'Cooking',
+      'Tasting',
+      'Food Culture',
+    ],
+    signatureJourney: 'Taste the Origin of Coffee',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567698/tg98ocowkavgwyv0p3ui.jpg',
+  },
+  {
+    id: 'cultural-agricultural-festivals',
+    numeral: '11',
+    name: 'Cultural & Agricultural Festivals',
+    kicker: 'HARVEST • FOOD • FARMING • COMMUNITY',
+    summary: 'Across Ethiopia, seasonal community celebrations are closely connected with agriculture, harvests, food traditions and rural life. Travelers can experience local farming communities, traditional food preparation, markets, music and celebrations while learning about the relationship between people and the land.',
+    italicNote: 'Seasonal agrarian festivals celebrating harvest, fertile soils, and rural community solidarity.',
+    experiencePoints: [
+      'Agriculture',
+      'Harvest',
+      'Local Food',
+      'Rural Life',
+      'Markets',
+      'Music',
+      'Community',
+      'Photography',
+    ],
+    signatureJourney: 'From Farm to Festival',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567779/zwgwasxyranacddinkwt.jpg',
+  },
+  {
+    id: 'ethiopian-arts-heritage-festivals',
+    numeral: '12',
+    name: 'Ethiopian Arts & Heritage Festivals',
+    kicker: 'ART • CRAFT • CULTURAL EXPRESSION',
+    summary: 'Discover Ethiopian artistic traditions through cultural events featuring traditional crafts, textiles, painting, music, dance, storytelling and contemporary creative expression.',
+    italicNote: 'Textile arts, illuminated painting, woodcarving, and vibrant contemporary Ethiopian art.',
+    experiencePoints: [
+      'Traditional Art',
+      'Handcrafts',
+      'Textiles',
+      'Music',
+      'Dance',
+      'Storytelling',
+      'Contemporary Art',
+      'Photography',
+    ],
+    signatureJourney: 'The Creative Ethiopia Journey',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793567537/ahh8w9y9uppmox9szaaf.jpg',
+  },
+];
+
+// 4 Festival Journeys
+export const FESTIVAL_JOURNEYS = [
+  {
+    id: 'northern-heritage-festival-journey',
+    numeral: '01',
+    name: 'Northern Heritage Festival Journey',
+    routeTitle: 'Lalibela → Gondar → Aksum → Tigray',
+    routeStops: ['Lalibela', 'Gondar', 'Aksum', 'Tigray'],
+    themes: ['Faith', 'History', 'Heritage', 'Sacred Traditions', 'Culture'],
+    summary: 'Discover Ethiopia\'s historic northern landscapes through religious celebrations, ancient heritage and living cultural traditions.',
+  },
+  {
+    id: 'oromo-cultural-festival-journey',
+    numeral: '02',
+    name: 'Oromo Cultural Festival Journey',
+    routeTitle: 'Addis Ababa → Bishoftu → Oromia',
+    routeStops: ['Addis Ababa', 'Bishoftu', 'Oromia'],
+    themes: ['Culture', 'Community', 'Music', 'Tradition', 'Nature'],
+    summary: 'Experience Oromo cultural landscapes and community celebrations while exploring the natural beauty of central Ethiopia.',
+  },
+  {
+    id: 'southern-cultural-festival-journey',
+    numeral: '03',
+    name: 'Southern Cultural Festival Journey',
+    routeTitle: 'Rift Valley → Sidama → Omo Valley',
+    routeStops: ['Rift Valley', 'Sidama', 'Omo Valley'],
+    themes: ['Culture', 'Community', 'Food', 'Traditional Arts', 'Landscapes'],
+    summary: 'Connect cultural celebrations with community experiences, traditional food and the extraordinary landscapes of southern Ethiopia.',
+  },
+  {
+    id: 'eastern-cultural-journey',
+    numeral: '04',
+    name: 'Eastern Cultural Journey',
+    routeTitle: 'Dire Dawa → Harar → Eastern Ethiopia',
+    routeStops: ['Dire Dawa', 'Harar', 'Eastern Ethiopia'],
+    themes: ['Walled City', 'Harari Culture', 'Food', 'Heritage', 'Community'],
+    summary: 'Discover the unique cultural crossroads of eastern Ethiopia through historic cities, markets, cuisine and living traditions.',
+  },
+];
+
+export const FESTIVAL_TOURISM_PROMISE = {
+  header: 'FESTIVAL TOURISM WITH DINQ',
+  subheader: 'MORE THAN A FESTIVAL. A CULTURAL JOURNEY.',
+  body: 'We don\'t simply take you to an event. We introduce you to the people, traditions, stories, food, music, landscapes and cultural meaning behind the celebration. Our festival journeys are designed to combine: Festival + Destination + Culture + Community + Food + Nature + Heritage.',
+  motto: 'COME FOR THE FESTIVAL. DISCOVER THE CULTURE. MEET THE PEOPLE. LEAVE WITH THE STORY.',
+  tagline: 'Dinq Tour & Events — Celebrate Ethiopia. Experience the Culture. Live the Moment.',
+};
+
+// Kundudo–Babile Expedition
+export const KUNDUDO_BABILE_CONTENT = {
+  hero: {
+    title: 'The Kundudo Wild Horse Expedition',
+    subtitle: 'A journey to discover one of Eastern Ethiopia’s most extraordinary living wildlife stories.',
+    eyebrow: 'Signature Eastern Wilderness',
+  },
+  mountKundudo: {
+    title: 'Kundudo Mountain',
+    kicker: 'A Mountain of Mystery, Horses & Heritage',
+    summary: 'Explore the spectacular Kundudo highlands, where dramatic terrain, panoramic views, traditional communities, and the legendary wild horses create a truly distinctive mountain experience.',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1793568450/a8fsvpnbl4gw3hm5fswj.jpg',
+    features: [
+      'Mountain hiking and exploration',
+      'Wild horse habitat exploration',
+      'Panoramic Eastern Ethiopian landscapes',
+      'Highland villages and rural life',
+      'Harari and Oromo cultural encounters',
+      'Traditional food and coffee',
+      'Indigenous knowledge and storytelling',
+      'Nature and landscape exploration',
+      'Wildlife photography',
+      'Community-based tourism & conservation experiences',
+    ],
+    signature: 'Kundudo Mountain Expedition',
+  },
+  babileElephant: {
+    title: 'Babile Elephant Sanctuary',
+    kicker: 'Where Wild Elephants Roam',
+    summary: 'Continue from the mountains into the remarkable landscapes of Babile, where wildlife, dryland ecosystems, local communities, and conservation come together. Discover the eastern elephant landscape while learning about the delicate relationship between wildlife and the communities that share this environment.',
+    features: [
+      'Elephant and wildlife observation',
+      'Nature exploration & birdwatching',
+      'Dramatic dryland landscapes',
+      'Wildlife photography',
+      'Conservation storytelling & community encounters',
+      'Traditional rural life & local guides',
+      'Indigenous ecological knowledge & native plants',
+      'Responsible wildlife tourism',
+      'Community conservation experiences',
+    ],
+    signature: 'The Babile Elephant Experience',
+  },
+  signatureRoute: [
+    'Kundudo Mountain',
+    'Wild Horse Habitat',
+    'Highland Communities',
+    'Babile Landscapes',
+    'Elephant Habitat',
+    'Eastern Cultural Experience',
+  ],
+  whyDifferentCards: [
+    { numeral: '01', title: 'Wild Horses', desc: 'Discover the legendary wild horses of Kundudo and the remarkable story of their survival in an isolated mountain environment.' },
+    { numeral: '02', title: 'Mountains', desc: 'Explore the dramatic highlands and panoramic landscapes of Kundudo.' },
+    { numeral: '03', title: 'Elephants', desc: 'Experience the remarkable wildlife landscapes of Babile and learn about elephant conservation.' },
+    { numeral: '04', title: 'Community', desc: 'Meet local communities and discover traditional ways of life, knowledge, food, and stories.' },
+    { numeral: '05', title: 'Nature', desc: 'Explore the unique ecosystems, plants, birds, wildlife, and landscapes of Eastern Ethiopia.' },
+    { numeral: '06', title: 'Photography', desc: 'Capture wild horses, elephants, mountains, villages, wildlife, and extraordinary Eastern Ethiopian landscapes.' },
+    { numeral: '07', title: 'Culture', desc: 'Experience traditional food, Ethiopian coffee, local stories, and the cultural heritage of the region.' },
+    { numeral: '08', title: 'Conservation', desc: 'Understand the importance of protecting wildlife and supporting communities living alongside these extraordinary species.' },
+  ],
+  theStoryOfKundudo: {
+    title: 'THE STORY OF KUNDUDO',
+    lines: [
+      'Some mountains hold history.',
+      'Some hold legends.',
+      'Kundudo holds both.',
+      'Hidden within its rugged highlands is a rare story of wild horses that have survived through generations in isolation, becoming an extraordinary symbol of the relationship between nature, freedom, community, and survival.',
+      'From the mysterious heights of Kundudo to the elephant landscapes of Babile, this is not simply a safari.',
+      'IT IS A JOURNEY INTO THE WILD SOUL OF EASTERN ETHIOPIA.',
+    ],
+    taglines: [
+      'FROM WILD HORSES TO WILD ELEPHANTS.',
+      'FROM MOUNTAIN PEAKS TO CULTURAL HEARTLANDS.',
+      'FROM NATURE TO CONSERVATION.',
+      'DISCOVER EASTERN ETHIOPIA WITH DINQ.',
+    ],
+  },
+};
