@@ -199,7 +199,9 @@ export const Shop: React.FC = () => {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const storeTopRef = useRef<HTMLDivElement>(null);
   const departmentCarouselRef = useRef<HTMLDivElement>(null);
+  const touchResumeTimerRef = useRef<number | null>(null);
   const [departmentScroll, setDepartmentScroll] = useState({ canScrollPrev: false, canScrollNext: true });
+  const [isDepartmentCarouselPaused, setIsDepartmentCarouselPaused] = useState(false);
 
   useEffect(() => {
     const carousel = departmentCarouselRef.current;
@@ -222,10 +224,54 @@ export const Shop: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const carousel = departmentCarouselRef.current;
+    if (!carousel || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const intervalId = window.setInterval(() => {
+      if (document.visibilityState !== 'visible') return;
+
+      const firstCard = carousel.querySelector<HTMLElement>('[data-department-card]');
+      if (!firstCard) return;
+
+      const gap = Number.parseFloat(window.getComputedStyle(carousel).columnGap) || 0;
+      const step = firstCard.getBoundingClientRect().width + gap;
+      const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+
+      carousel.scrollTo({
+        left: carousel.scrollLeft >= maxScrollLeft - 2 ? 0 : carousel.scrollLeft + step,
+        behavior: 'smooth',
+      });
+    }, 4000);
+
+    return () => window.clearInterval(intervalId);
+  }, [isDepartmentCarouselPaused]);
+
+  useEffect(() => () => {
+    if (touchResumeTimerRef.current !== null) {
+      window.clearTimeout(touchResumeTimerRef.current);
+    }
+  }, []);
+
   const scrollDepartments = (direction: -1 | 1) => {
     const carousel = departmentCarouselRef.current;
     if (!carousel) return;
-    carousel.scrollBy({ left: direction * carousel.clientWidth * 0.8, behavior: 'smooth' });
+
+    const firstCard = carousel.querySelector<HTMLElement>('[data-department-card]');
+    const gap = Number.parseFloat(window.getComputedStyle(carousel).columnGap) || 0;
+    const step = (firstCard?.getBoundingClientRect().width || carousel.clientWidth * 0.8) + gap;
+    carousel.scrollBy({ left: direction * step, behavior: 'smooth' });
+  };
+
+  const pauseDepartmentCarouselAfterTouch = () => {
+    setIsDepartmentCarouselPaused(true);
+    if (touchResumeTimerRef.current !== null) {
+      window.clearTimeout(touchResumeTimerRef.current);
+    }
+    touchResumeTimerRef.current = window.setTimeout(() => {
+      setIsDepartmentCarouselPaused(false);
+      touchResumeTimerRef.current = null;
+    }, 6000);
   };
 
   const handleSelectTab = (tab: 'All' | 'Gear' | 'Collections' | 'Gifts') => {
@@ -465,10 +511,26 @@ export const Shop: React.FC = () => {
             </div>
           </div>
 
-          <div ref={departmentCarouselRef} aria-label="Shop departments" className="flex items-center gap-4 sm:gap-5 overflow-x-auto overscroll-x-contain touch-pan-x no-scrollbar pb-6 px-1 snap-x snap-mandatory scroll-smooth">
+          <div
+            ref={departmentCarouselRef}
+            aria-label="Shop departments"
+            onMouseEnter={() => setIsDepartmentCarouselPaused(true)}
+            onMouseLeave={() => setIsDepartmentCarouselPaused(false)}
+            onFocusCapture={() => setIsDepartmentCarouselPaused(true)}
+            onBlurCapture={(event) => {
+              const nextFocusedElement = event.relatedTarget;
+              if (!(nextFocusedElement instanceof Node) || !event.currentTarget.contains(nextFocusedElement)) {
+                setIsDepartmentCarouselPaused(false);
+              }
+            }}
+            onTouchStart={pauseDepartmentCarouselAfterTouch}
+            onTouchEnd={pauseDepartmentCarouselAfterTouch}
+            className="flex items-center gap-4 sm:gap-5 overflow-x-auto overscroll-x-contain touch-pan-x no-scrollbar pb-6 px-1 snap-x snap-mandatory scroll-smooth"
+          >
             <button 
               type="button" 
               onClick={() => handleSelectDepartment('all')} 
+              data-department-card
               className={`group shrink-0 snap-start relative w-[82vw] max-w-[320px] h-[320px] sm:h-[360px] rounded-[2rem] overflow-hidden border transition-all duration-500 cursor-pointer ${
                 activeCategoryId === 'all' 
                   ? 'border-[#D95F49] shadow-2xl scale-[1.02] bg-[#1A130F]' 
@@ -494,6 +556,7 @@ export const Shop: React.FC = () => {
                   key={cat.id} 
                   type="button" 
                   onClick={() => handleSelectDepartment(isSelected ? 'all' : cat.id)} 
+                  data-department-card
                   className={`group shrink-0 snap-start relative w-[82vw] max-w-[320px] h-[320px] sm:h-[360px] rounded-[2rem] overflow-hidden border transition-all duration-500 text-left cursor-pointer ${
                     isSelected 
                       ? 'border-[#D95F49] shadow-2xl scale-[1.02]' 
