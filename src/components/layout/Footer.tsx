@@ -8,15 +8,15 @@ export const Footer: React.FC = () => {
   const whatsappHref = waLink('Hello Dinq Tour, Travel & Events! I would like to make an inquiry.');
 
   return (
-    <footer className="relative bg-[#0E0D0B] text-[#FAF7F2] border-t border-white/10 grain pt-20 pb-12 overflow-hidden">
+    <footer className="relative bg-[#0E0D0B] text-[#FAF7F2] border-t border-white/10 grain pt-14 sm:pt-20 pb-10 sm:pb-12 overflow-hidden">
       <div className="absolute inset-0 gold-glow opacity-30" />
 
       <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 pb-16 border-b border-white/10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 sm:gap-12 pb-12 sm:pb-16 border-b border-white/10">
           {/* Brand Info */}
           <div className="lg:col-span-2 space-y-5">
             <Link to="/" className="inline-flex rounded-2xl focus:outline-none group">
-              <img src="/logo.png" alt="Dinq Tour and Events" className="h-32 w-36 object-contain transition-transform group-hover:scale-[1.02]" />
+              <img src="/logo.png" alt="Dinq Tour and Events" className="h-28 w-32 sm:h-32 sm:w-36 object-contain transition-transform group-hover:scale-[1.02]" />
             </Link>
 
             <p className="text-xs uppercase tracking-[0.25em] text-[#C88A2E] font-semibold">

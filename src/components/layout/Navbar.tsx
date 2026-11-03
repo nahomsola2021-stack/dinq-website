@@ -32,8 +32,8 @@ export const Navbar: React.FC = () => {
     <header
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled
-          ? 'glass-dark py-3 shadow-lg shadow-black/20'
-          : 'bg-gradient-to-b from-[#1F1713]/85 to-transparent py-4'
+          ? 'glass-dark py-2 sm:py-3 shadow-lg shadow-black/20'
+          : 'bg-gradient-to-b from-[#1F1713]/85 to-transparent py-3 sm:py-4'
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -49,7 +49,7 @@ export const Navbar: React.FC = () => {
               src="/logo.png"
               alt="Dinq Tour and Events"
               className={`object-contain transition-all duration-500 ease-in-out group-hover:scale-[1.03] ${
-                scrolled ? 'h-14 w-14 sm:h-16 sm:w-16' : 'h-24 w-24 sm:h-28 sm:w-28'
+                scrolled ? 'h-12 w-12 sm:h-16 sm:w-16' : 'h-20 w-20 sm:h-28 sm:w-28'
               }`}
             />
           </Link>
@@ -141,7 +141,8 @@ export const Navbar: React.FC = () => {
               className="btn-terracotta !py-2 !px-4 text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap cursor-pointer"
             >
               <Compass className="h-3.5 w-3.5 inline mr-1" />
-              <span>Book an Expedition</span>
+              <span className="sm:hidden">Book</span>
+              <span className="hidden sm:inline">Book an Expedition</span>
             </button>
 
             {/* Mobile Hamburger */}
@@ -150,6 +151,8 @@ export const Navbar: React.FC = () => {
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className="lg:hidden p-2 text-[#FAF7F2] hover:text-[#DDAA42] transition-colors"
               aria-label="Toggle mobile menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               {mobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -159,12 +162,13 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-x-0 top-full max-h-[85vh] overflow-y-auto bg-[#1F1713] border-b border-[#3D3028] px-6 py-6 shadow-2xl">
+        <div id="mobile-navigation" className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain bg-[#1F1713] border-b border-[#3D3028] px-6 py-6 shadow-2xl">
           <nav className="space-y-3.5">
             {MAIN_NAV.map((item) => (
               <div key={item.label} className="border-b border-white/5 pb-2.5">
                 <Link
                   to={item.href}
+                  onClick={() => setMobileMenuOpen(false)}
                   className="block text-sm font-medium text-[#FAF7F2] hover:text-[#D95F49]"
                 >
                   {item.label}
@@ -175,6 +179,7 @@ export const Navbar: React.FC = () => {
                       <Link
                         key={child.label}
                         to={child.href}
+                        onClick={() => setMobileMenuOpen(false)}
                         className="block py-0.5 text-xs text-[#F5E9DA]/75 hover:text-[#FAF7F2]"
                       >
                         {child.label}

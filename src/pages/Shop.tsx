@@ -197,6 +197,35 @@ export const Shop: React.FC = () => {
 
   const [currentPage, setCurrentPage] = useState<number>(1);
   const storeTopRef = useRef<HTMLDivElement>(null);
+  const departmentCarouselRef = useRef<HTMLDivElement>(null);
+  const [departmentScroll, setDepartmentScroll] = useState({ canScrollPrev: false, canScrollNext: true });
+
+  useEffect(() => {
+    const carousel = departmentCarouselRef.current;
+    if (!carousel) return;
+
+    const updateScrollState = () => {
+      const maxScrollLeft = carousel.scrollWidth - carousel.clientWidth;
+      setDepartmentScroll({
+        canScrollPrev: carousel.scrollLeft > 2,
+        canScrollNext: carousel.scrollLeft < maxScrollLeft - 2,
+      });
+    };
+
+    updateScrollState();
+    carousel.addEventListener('scroll', updateScrollState, { passive: true });
+    window.addEventListener('resize', updateScrollState);
+    return () => {
+      carousel.removeEventListener('scroll', updateScrollState);
+      window.removeEventListener('resize', updateScrollState);
+    };
+  }, []);
+
+  const scrollDepartments = (direction: -1 | 1) => {
+    const carousel = departmentCarouselRef.current;
+    if (!carousel) return;
+    carousel.scrollBy({ left: direction * carousel.clientWidth * 0.8, behavior: 'smooth' });
+  };
 
   const handleSelectTab = (tab: 'All' | 'Gear' | 'Collections' | 'Gifts') => {
     setActiveFilter(tab);
@@ -368,21 +397,21 @@ export const Shop: React.FC = () => {
       </div>
 
       {/* SHOPPING CART FLOATING BUTTON */}
-      <button type="button" onClick={() => setIsCartOpen(true)} className="fixed bottom-24 right-6 z-40 flex items-center gap-3 px-5 py-3.5 rounded-full bg-[#1A130F] text-[#FFF9F2] border border-[#DDAA42]/50 shadow-[0_15px_35px_rgba(0,0,0,0.35)] hover:scale-105 transition-all group cursor-pointer">
+      <button type="button" onClick={() => setIsCartOpen(true)} aria-label={`Open shopping bag${cart.length ? `, ${cart.reduce((sum, item) => sum + item.quantity, 0)} items` : ', empty'}`} className="fixed bottom-24 right-3 sm:right-6 z-40 h-12 w-12 sm:h-auto sm:w-auto flex items-center justify-center sm:justify-start gap-2 sm:gap-3 p-0 sm:px-5 sm:py-3.5 rounded-full bg-[#1A130F] text-[#FFF9F2] border border-[#DDAA42]/50 shadow-[0_15px_35px_rgba(0,0,0,0.35)] hover:scale-105 transition-all group cursor-pointer">
         <div className="relative">
           <ShoppingBag className="h-5 w-5 text-[#DDAA42]" />
           {cart.length > 0 && <span className="absolute -top-2 -right-2 h-5 w-5 rounded-full bg-[#D95F49] text-white text-[10px] font-bold flex items-center justify-center">{cart.reduce((s, i) => s + i.quantity, 0)}</span>}
         </div>
-        <div className="text-left">
+        <div className="hidden sm:block text-left">
           <span className="block text-[9px] uppercase tracking-widest text-[#DDAA42] font-bold">Shopping Bag</span>
           <span className="block text-xs font-semibold">{cart.length === 0 ? 'Empty Bag' : `${cart.reduce((s, i) => s + i.quantity, 0)} Items · $${cartTotal}`}</span>
         </div>
       </button>
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-16">
+      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 mb-16">
-          <div className="lg:col-span-8 relative rounded-[28px] overflow-hidden min-h-[360px] sm:min-h-[420px] flex flex-col justify-end p-8 sm:p-12 bg-[#1A130F] group">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 mb-12 sm:mb-16">
+          <div className="lg:col-span-8 relative rounded-[28px] overflow-hidden min-h-[400px] sm:min-h-[420px] flex flex-col justify-end p-5 sm:p-12 bg-[#1A130F] group">
             <ImageWithFallback src="https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?auto=format&fit=crop&w=1600&q=85" alt="Simien Alpine Basecamp Kit" className="absolute inset-0 w-full h-full object-cover opacity-80 transition-transform duration-1000 group-hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#120D0A] via-[#120D0A]/50 to-transparent" />
             <div className="relative z-10 max-w-xl">
@@ -390,13 +419,13 @@ export const Shop: React.FC = () => {
               <h2 className="font-serif text-3xl sm:text-5xl font-medium text-white leading-tight">The Simien & Bale <span className="italic text-[#DDAA42]">4,000m Alpine Kit</span></h2>
               <p className="mt-3 text-xs sm:text-sm text-[#E7D0B8] font-light leading-relaxed">Arrive in Addis Ababa light. Reserve our complete 4-season sub-zero sleeping system, Gore-Tex shell, carbon poles, and waterproof duffel—delivered directly to your hotel or basecamp.</p>
               <div className="mt-6 flex flex-wrap items-center gap-4">
-                <button type="button" onClick={() => { setAcquisitionMode('rent'); setActiveFilter('Gear'); setActiveCategoryId('all'); storeTopRef.current?.scrollIntoView({ behavior: 'smooth' }); }} className="px-6 py-3 rounded-full bg-[#DDAA42] text-[#1A130F] font-bold text-xs uppercase tracking-widest hover:bg-[#E7C175] transition-all cursor-pointer">Browse Rental Gear · From $6/day</button>
+                <button type="button" onClick={() => { setAcquisitionMode('rent'); setActiveFilter('Gear'); setActiveCategoryId('all'); storeTopRef.current?.scrollIntoView({ behavior: 'smooth' }); }} className="px-5 sm:px-6 py-3 rounded-full bg-[#DDAA42] text-[#1A130F] font-bold text-[10px] sm:text-xs uppercase tracking-widest hover:bg-[#E7C175] transition-all cursor-pointer">Browse Rental Gear · From $6/day</button>
                 <a href={waLink('Hello Dinq! I would like to reserve the complete Simien & Bale 4,000m Alpine Rental Kit.')} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-2 text-xs font-semibold text-white hover:text-[#DDAA42] transition-colors"><span>Reserve Full Bundle ($38/day)</span><ArrowUpRight className="h-4 w-4" /></a>
               </div>
             </div>
           </div>
 
-          <div className="lg:col-span-4 relative rounded-[28px] overflow-hidden min-h-[360px] flex flex-col justify-between p-8 bg-gradient-to-br from-[#2A1D18] to-[#140D09] border border-[#DDAA42]/30 group">
+          <div className="lg:col-span-4 relative rounded-[28px] overflow-hidden min-h-[360px] flex flex-col justify-between p-6 sm:p-8 bg-gradient-to-br from-[#2A1D18] to-[#140D09] border border-[#DDAA42]/30 group">
             <ImageWithFallback src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=900&q=80" alt="Urban Camping Merch" className="absolute inset-0 w-full h-full object-cover opacity-35 mix-blend-luminosity transition-transform duration-1000 group-hover:scale-105" />
             <div className="absolute inset-0 bg-gradient-to-t from-[#140D09] via-[#140D09]/60 to-transparent" />
             <div className="relative z-10 flex items-center justify-between">
@@ -412,22 +441,34 @@ export const Shop: React.FC = () => {
         </div>
 
         {/* DEPARTMENT SCROLLER */}
-        <div className="mb-14" ref={storeTopRef}>
-          <div className="flex items-end justify-between mb-8">
+        <div className="mb-10 sm:mb-14" ref={storeTopRef}>
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-5 sm:mb-8">
             <div>
               <span className="text-[10px] font-bold uppercase tracking-[0.25em] text-[#D95F49] block mb-1.5">10 Outfitter Departments</span>
               <h3 className="font-serif text-3xl sm:text-4xl font-semibold text-[#302019]">Shop by Department</h3>
             </div>
-            {activeCategoryId !== 'all' && (
-              <button type="button" onClick={() => handleSelectDepartment('all')} className="text-xs font-bold text-[#D95F49] hover:underline cursor-pointer tracking-wider">SHOW ALL 10 DEPARTMENTS ✕</button>
-            )}
+            <div className="flex items-center justify-between gap-3">
+              {activeCategoryId !== 'all' ? (
+                <button type="button" onClick={() => handleSelectDepartment('all')} className="text-[10px] sm:text-xs font-bold text-[#D95F49] hover:underline cursor-pointer tracking-wider">SHOW ALL 10 DEPARTMENTS ✕</button>
+              ) : (
+                <span className="text-[11px] text-[#78685E] sm:hidden">Swipe to explore departments</span>
+              )}
+              <div className="flex items-center gap-2 ml-auto">
+                <button type="button" onClick={() => scrollDepartments(-1)} disabled={!departmentScroll.canScrollPrev} aria-label="Scroll departments left" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-[#E7D0B8] bg-white text-[#302019] hover:bg-[#302019] hover:text-white disabled:opacity-35 disabled:cursor-not-allowed transition-colors">
+                  <ChevronLeft className="h-4 w-4" />
+                </button>
+                <button type="button" onClick={() => scrollDepartments(1)} disabled={!departmentScroll.canScrollNext} aria-label="Scroll departments right" className="h-10 w-10 inline-flex items-center justify-center rounded-full border border-[#E7D0B8] bg-white text-[#302019] hover:bg-[#302019] hover:text-white disabled:opacity-35 disabled:cursor-not-allowed transition-colors">
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            </div>
           </div>
 
-          <div className="flex items-center gap-5 overflow-x-auto no-scrollbar pb-6 snap-x">
+          <div ref={departmentCarouselRef} aria-label="Shop departments" className="flex items-center gap-4 sm:gap-5 overflow-x-auto overscroll-x-contain touch-pan-x no-scrollbar pb-6 px-1 snap-x snap-mandatory scroll-smooth">
             <button 
               type="button" 
               onClick={() => handleSelectDepartment('all')} 
-              className={`group shrink-0 snap-start relative w-[280px] sm:w-[320px] h-[360px] rounded-[2rem] overflow-hidden border transition-all duration-500 cursor-pointer ${
+              className={`group shrink-0 snap-start relative w-[82vw] max-w-[320px] h-[320px] sm:h-[360px] rounded-[2rem] overflow-hidden border transition-all duration-500 cursor-pointer ${
                 activeCategoryId === 'all' 
                   ? 'border-[#D95F49] shadow-2xl scale-[1.02] bg-[#1A130F]' 
                   : 'border-[#E7D0B8] bg-[#1A130F] opacity-90 hover:opacity-100 hover:border-[#DDAA42]/50'
@@ -452,7 +493,7 @@ export const Shop: React.FC = () => {
                   key={cat.id} 
                   type="button" 
                   onClick={() => handleSelectDepartment(isSelected ? 'all' : cat.id)} 
-                  className={`group shrink-0 snap-start relative w-[280px] sm:w-[320px] h-[360px] rounded-[2rem] overflow-hidden border transition-all duration-500 text-left cursor-pointer ${
+                  className={`group shrink-0 snap-start relative w-[82vw] max-w-[320px] h-[320px] sm:h-[360px] rounded-[2rem] overflow-hidden border transition-all duration-500 text-left cursor-pointer ${
                     isSelected 
                       ? 'border-[#D95F49] shadow-2xl scale-[1.02]' 
                       : 'border-transparent shadow-lg hover:shadow-xl'
@@ -674,13 +715,14 @@ export const Shop: React.FC = () => {
 
         {totalPages > 1 && (
           <div className="mt-16 pt-8 border-t border-[#E7D0B8] flex items-center justify-center gap-2 sm:gap-3">
-            <button type="button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="h-12 px-5 rounded-full border border-[#E7D0B8] bg-white text-xs font-semibold text-[#302019] disabled:opacity-35 hover:bg-[#302019] hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"><ChevronLeft className="h-4 w-4" /><span className="hidden sm:inline">Previous</span></button>
-            <div className="flex items-center gap-2">
+            <button type="button" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1} className="h-12 px-4 sm:px-5 rounded-full border border-[#E7D0B8] bg-white text-xs font-semibold text-[#302019] disabled:opacity-35 hover:bg-[#302019] hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"><ChevronLeft className="h-4 w-4" /><span className="hidden sm:inline">Previous</span></button>
+            <div className="hidden sm:flex items-center gap-2">
               {[...Array(totalPages)].map((_, idx) => (
                 <button key={idx + 1} type="button" onClick={() => handlePageChange(idx + 1)} className={`h-12 w-12 rounded-full font-serif text-base font-bold transition-all cursor-pointer shadow-sm ${currentPage === idx + 1 ? 'bg-[#302019] text-[#DDAA42] scale-105' : 'bg-white border border-[#E7D0B8] text-[#78685E] hover:text-[#302019] hover:border-[#302019]'}`}>{idx + 1}</button>
               ))}
             </div>
-            <button type="button" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="h-12 px-5 rounded-full border border-[#E7D0B8] bg-white text-xs font-semibold text-[#302019] disabled:opacity-35 hover:bg-[#302019] hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"><span className="hidden sm:inline">Next</span><ChevronRight className="h-4 w-4" /></button>
+            <span className="sm:hidden text-xs font-semibold text-[#78685E]">Page {currentPage} of {totalPages}</span>
+            <button type="button" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages} className="h-12 px-4 sm:px-5 rounded-full border border-[#E7D0B8] bg-white text-xs font-semibold text-[#302019] disabled:opacity-35 hover:bg-[#302019] hover:text-white transition-all flex items-center gap-1.5 cursor-pointer shadow-sm"><span className="hidden sm:inline">Next</span><ChevronRight className="h-4 w-4" /></button>
           </div>
         )}
 
