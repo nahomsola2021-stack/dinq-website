@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, MessageCircle, Calendar, ArrowUpRight } from 'lucide-react';
+import { ArrowRight, Calendar, ArrowUpRight } from 'lucide-react';
+import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import { ImageWithFallback } from '../premium/ImageWithFallback';
 import { TourItem } from '../../data/content/tours';
 import { waLink } from '../../lib/whatsapp';
@@ -109,7 +110,7 @@ export const TourCard: React.FC<TourCardProps> = ({
                 aria-label={`Inquire about ${tour.title} on WhatsApp`}
                 className="h-7 w-7 rounded-full bg-[#F5E9DA]/60 border border-[#E7D0B8] text-[#302019] flex items-center justify-center hover:bg-[#D95F49] hover:border-[#D95F49] hover:text-white transition-colors"
               >
-                <MessageCircle className="h-3.5 w-3.5" />
+                <WhatsAppIcon className="h-3.5 w-3.5" />
               </a>
             </div>
           </div>
@@ -237,7 +238,7 @@ export const TourCard: React.FC<TourCardProps> = ({
               aria-label={`Inquire about ${tour.title} via WhatsApp`}
               className="inline-flex items-center gap-1.5 text-xs font-medium text-[#78685E] hover:text-[#D95F49] transition-colors py-1 px-2.5 rounded-md hover:bg-[#F5E9DA]/50"
             >
-              <MessageCircle className="h-3.5 w-3.5 text-[#D95F49]" />
+              <WhatsAppIcon className="h-3.5 w-3.5" />
               <span className="hidden sm:inline">Inquire</span>
             </a>
           </div>

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Compass, MessageCircle, ArrowRight } from 'lucide-react';
+import { Compass, ArrowRight } from 'lucide-react';
+import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import { waLink } from '../../lib/whatsapp';
 import { useBooking } from '../../context/BookingContext';
 
@@ -61,7 +62,7 @@ export const CTABand: React.FC<CTABandProps> = ({
             rel="noopener noreferrer"
             className="btn-outline-gold !text-[#F5E9DA] !border-[#E7D0B8]/30 hover:!border-[#D95F49]"
           >
-            <MessageCircle className="h-4 w-4 text-[#D95F49]" />
+            <WhatsAppIcon className="h-4 w-4" />
             <span>Chat on WhatsApp</span>
           </a>
         </div>

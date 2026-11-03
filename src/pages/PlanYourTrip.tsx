@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Compass, Check, ArrowRight, ArrowLeft, MessageCircle } from 'lucide-react';
+import { Compass, Check, ArrowRight, ArrowLeft } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import confetti from 'canvas-confetti';
 import { PageHero } from '../components/premium/PageHero';
 import { updatePageMeta } from '../lib/seo';
@@ -162,7 +163,7 @@ export const PlanYourTrip: React.FC = () => {
                   rel="noopener noreferrer"
                   className="btn-terracotta !py-2 !px-5 text-xs font-semibold"
                 >
-                  <MessageCircle className="h-3.5 w-3.5" />
+                  <WhatsAppIcon className="h-3.5 w-3.5" />
                   <span>Send Summary on WhatsApp</span>
                 </a>
                 <button

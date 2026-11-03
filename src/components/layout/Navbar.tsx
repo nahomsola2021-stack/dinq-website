@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { ChevronDown, Menu, X, Compass, MessageCircle } from 'lucide-react';
+import { ChevronDown, Menu, X, Compass } from 'lucide-react';
+import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import { MAIN_NAV } from '../../data/content/navigation';
 import { waLink } from '../../lib/whatsapp';
 import { useBooking } from '../../context/BookingContext';
@@ -133,7 +134,7 @@ export const Navbar: React.FC = () => {
               aria-label="Direct WhatsApp Contact"
               className="hidden sm:inline-flex items-center justify-center h-9 w-9 rounded-full border border-white/15 text-[#DDAA42] hover:border-[#D95F49] hover:text-[#FAF7F2] transition-colors"
             >
-              <MessageCircle className="h-4 w-4 text-[#D95F49]" />
+              <WhatsAppIcon className="h-4 w-4" />
             </a>
 
             <button

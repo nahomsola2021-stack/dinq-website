@@ -1,11 +1,12 @@
 // src/pages/Shop.tsx
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import {
-  ShoppingBag, Search, MessageCircle, Footprints, Shirt, Shield, Tent, HeartPulse,
+  ShoppingBag, Search, Footprints, Shirt, Shield, Tent, HeartPulse,
   Camera, Flame, Award, Gift, X, Plus, Minus, Check, Star, Heart, Eye, Sparkles,
   Truck, ShieldCheck, ChevronLeft, ChevronRight, SlidersHorizontal, PackageCheck, ArrowUpRight,
   CreditCard, Lock
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../admin/lib/firebase';
 import { PageHero } from '../components/premium/PageHero';
@@ -704,7 +705,10 @@ export const Shop: React.FC = () => {
                     </div>
                     <div className="mt-8 pt-5 border-t border-[#E7D0B8]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                       <button type="button" onClick={() => { handleSelectDepartment(cat.id); setViewType('products'); }} className="text-[11px] font-bold uppercase tracking-widest text-[#D95F49] hover:underline cursor-pointer">View All {cat.items.length} Products →</button>
-                      <a href={waLink(`Hello Dinq Shop! I want to inquire about "${cat.name}".`)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#302019] text-[#FFF9F2] text-[10px] font-bold uppercase tracking-widest hover:bg-[#D95F49] transition-colors shadow-md"><MessageCircle className="h-4 w-4" /><span>Ask Sizing</span></a>
+                      <a href={waLink(`Hello Dinq Shop! I want to inquire about "${cat.name}".`)} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-[#302019] text-[#FFF9F2] text-[10px] font-bold uppercase tracking-widest hover:bg-[#D95F49] transition-colors shadow-md">
+                        <WhatsAppIcon className="h-4 w-4" />
+                        <span>Ask Sizing</span>
+                      </a>
                     </div>
                   </div>
                 </div>
@@ -808,7 +812,7 @@ export const Shop: React.FC = () => {
                 
                 <div className="space-y-2">
                   <a href={generateCartWhatsAppLink()} target="_blank" rel="noopener noreferrer" className="w-full py-4 rounded-full bg-[#25D366] hover:bg-[#1fb855] text-white font-bold text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-2.5 shadow-xl transition-all hover:-translate-y-1 cursor-pointer">
-                    <MessageCircle className="h-5 w-5" /><span>Proceed to Checkout (WhatsApp)</span>
+                    <WhatsAppIcon className="h-5 w-5" /><span>Proceed to Checkout (WhatsApp)</span>
                   </a>
                   <div className="flex items-center justify-center gap-2 text-[10px] text-[#78685E] pt-1">
                     <Lock className="h-3 w-3 text-[#D95F49]" /><span>Secure Order Confirmation · Pay on Delivery</span>

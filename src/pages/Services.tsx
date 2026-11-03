@@ -1,6 +1,7 @@
 // src/pages/Services.tsx
 import React, { useEffect } from 'react';
-import { Briefcase, Compass, Plane, Sparkles, Handshake, MessageCircle } from 'lucide-react';
+import { Briefcase, Compass, Plane, Sparkles, Handshake } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { PageHero } from '../components/premium/PageHero';
 import { CheckList } from '../components/premium/CheckList';
 import { CTABand } from '../components/premium/CTABand';
@@ -134,7 +135,7 @@ export const Services: React.FC = () => {
               rel="noopener noreferrer"
               className="btn-terracotta !py-2.5 !px-5 text-xs font-semibold"
             >
-              <MessageCircle className="h-4 w-4" />
+              <WhatsAppIcon className="h-4 w-4" />
               <span>Partner or Plan with Dinq</span>
             </a>
           </div>

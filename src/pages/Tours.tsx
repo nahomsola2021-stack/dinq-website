@@ -3,8 +3,9 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
 import {
   Search, Filter, X, LayoutList, LayoutGrid, RotateCcw, Compass,
-  MessageCircle, Check, MapPin, ChevronLeft, ChevronRight, ChevronDown,
+  Check, MapPin, ChevronLeft, ChevronRight, ChevronDown,
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { collection, getDocs } from 'firebase/firestore';
 import { db } from '../admin/lib/firebase';
 import { PageHero } from '../components/premium/PageHero';
@@ -289,7 +290,7 @@ export const Tours: React.FC = () => {
 
             <div className="pt-8 mt-2 border-t border-[#E7D0B8]/60">
               <a href={waLink('Hello Dinq! I would like to consult with an expedition planner about curating a custom tour.')} target="_blank" rel="noopener noreferrer" className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-[#FAF4EB] border border-[#E7D0B8] text-xs font-bold uppercase tracking-wider text-[#302019] hover:bg-white hover:border-[#DDAA42] hover:text-[#DDAA42] transition-all shadow-sm hover:shadow-md group">
-                <MessageCircle className="h-4 w-4 text-[#DDAA42] group-hover:scale-110 transition-transform" />
+                <WhatsAppIcon className="h-4 w-4 group-hover:scale-110 transition-transform" />
                 <span>Custom Itinerary</span>
               </a>
             </div>

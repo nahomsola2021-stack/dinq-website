@@ -8,17 +8,16 @@ import {
   ChevronRight,
   Check,
   MapPin,
-  MessageCircle,
   Compass,
   Award,
   Layers,
   Sparkles,
   Sliders,
   ShieldCheck,
-  Star,
   Tag,
   X
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { StatBand } from '../components/premium/StatBand';
 import { Marquee } from '../components/premium/Marquee';
 import { CTABand } from '../components/premium/CTABand';
@@ -38,6 +37,7 @@ export interface HeroSlide {
   image: string;
   title: string;
   titleItalic: string;
+  nativeScript?: string;
   subtitle: string;
   location: string;
   tag?: string;
@@ -49,6 +49,7 @@ const HERO_SLIDES: HeroSlide[] = [
     image: 'https://res.cloudinary.com/dw1ohipim/image/upload/f_auto,q_auto,w_2400/v1788196891/x3pjsvkwckin0nkubke3.jpg',
     title: 'Discover Ancient',
     titleItalic: 'Lalibela',
+    nativeScript: 'ላሊበላ • ኢትዮጵያ',
     subtitle: 'Stand inside monolithic rock-hewn sanctuaries carved directly into red volcanic bedrock eight centuries ago.',
     location: 'Lalibela • Amhara Massif',
     tag: 'UNESCO World Heritage',
@@ -56,8 +57,9 @@ const HERO_SLIDES: HeroSlide[] = [
   },
   {
     image: 'https://res.cloudinary.com/dw1ohipim/image/upload/f_auto,q_auto,w_2400/v1793175061/j3r2rmi9flsvjmoz0jdz.jpg',
-    title: 'The Mountains of ',
+    title: 'The Mountains of',
     titleItalic: 'Adventure',
+    nativeScript: 'ስሜን ተራሮች',
     subtitle: 'Towering 1,500-meter basalt escarpments, endemic Walia ibex, and the ancient misty realm of the Gelada baboons.',
     location: 'Simien Mountains National Park',
     tag: 'Afro-Alpine Trekking',
@@ -67,6 +69,7 @@ const HERO_SLIDES: HeroSlide[] = [
     image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1791473046/ltmcrvpqcx4iuwlu7fld.jpg',
     title: 'Venture into the',
     titleItalic: 'Great Rift',
+    nativeScript: 'ዳናኪል • አፋር',
     subtitle: 'Planetary geothermal wonders, iridescent sulfur terraces at Dallol, and centuries-old Afar camel salt caravans.',
     location: 'Danakil Depression • Afar',
     tag: 'Geothermal Frontier',
@@ -76,6 +79,7 @@ const HERO_SLIDES: HeroSlide[] = [
     image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1789937754/ctzbwpnlytehkv6zznb5.jpg',
     title: 'Experience Ancestral',
     titleItalic: 'Traditions',
+    nativeScript: 'ኦሞ ሸለቆ',
     subtitle: 'Living cultures and community-guided encounters along the sacred waters of the Lower Omo River basin.',
     location: 'Lower Omo River Basin',
     tag: 'Living Heritage',
@@ -267,10 +271,10 @@ export const Home: React.FC = () => {
   return (
     <div className="w-full bg-[#F5E9DA] text-[#302019] overflow-x-hidden selection:bg-[#DDAA42] selection:text-[#18110D]">
       
-      {/* 1. CINEMATIC HERO */}
+      {/* 1. CINEMATIC HERO — GOLDEN GRADIENT MONUMENTAL TYPOGRAPHY & CIRCULAR THUMBNAILS */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-[calc(100vh-5rem)] lg:min-h-[720px] overflow-hidden bg-[#0B0807] flex flex-col"
+        className="relative w-full min-h-[calc(100vh-5rem)] lg:min-h-[760px] overflow-hidden bg-[#0B0807] flex flex-col justify-between"
         onMouseEnter={() => setIsHeroPaused(true)}
         onMouseMove={handleHeroMouseMove}
         onMouseLeave={handleHeroMouseLeave}
@@ -294,6 +298,7 @@ export const Home: React.FC = () => {
           }
         `}</style>
 
+        {/* Background Film Plates with Slow Push-In & Mouse Parallax */}
         {HERO_SLIDES.map((slide, idx) => {
           const isActive = idx === currentSlide;
           const pushing = isActive && heroReady;
@@ -332,74 +337,246 @@ export const Home: React.FC = () => {
           );
         })}
 
-        <div className="absolute inset-0 z-10 pointer-events-none mix-blend-soft-light" style={{ background: 'linear-gradient(135deg, rgba(14,58,62,0.45) 0%, rgba(14,58,62,0) 45%, rgba(217,95,73,0.40) 100%)' }} />
-        <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: 'linear-gradient(to top, rgba(11,8,7,0.94) 0%, rgba(11,8,7,0.62) 32%, rgba(11,8,7,0.08) 62%, rgba(11,8,7,0.5) 100%), linear-gradient(to right, rgba(11,8,7,0.6) 0%, rgba(11,8,7,0) 62%)' }} />
-        <div className="absolute inset-0 z-10 pointer-events-none" style={{ background: 'radial-gradient(ellipse at 55% 45%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.7) 100%)' }} />
+        {/* Atmospheric Overlays */}
+        <div
+          className="absolute inset-0 z-10 pointer-events-none mix-blend-soft-light"
+          style={{
+            background:
+              'linear-gradient(135deg, rgba(14,58,62,0.45) 0%, rgba(14,58,62,0) 45%, rgba(217,95,73,0.40) 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(to top, rgba(11,8,7,0.92) 0%, rgba(11,8,7,0.42) 35%, rgba(11,8,7,0.25) 65%, rgba(11,8,7,0.6) 100%)',
+          }}
+        />
+        <div
+          className="absolute inset-0 z-10 pointer-events-none"
+          style={{
+            background:
+              'radial-gradient(ellipse at 50% 48%, rgba(0,0,0,0.18) 0%, rgba(0,0,0,0.72) 100%)',
+          }}
+        />
         <div className="grain absolute inset-0 z-10 opacity-30 pointer-events-none" />
-        <div className="cine-anim absolute top-0 inset-x-0 z-30 bg-black pointer-events-none" style={{ height: BAR_H, animation: 'cineBars 1800ms cubic-bezier(0.7, 0, 0.2, 1) both' }} />
-        <div className="cine-anim absolute bottom-0 inset-x-0 z-30 bg-black pointer-events-none" style={{ height: BAR_H, animation: 'cineBars 1800ms cubic-bezier(0.7, 0, 0.2, 1) both' }} />
-        <div className="cine-anim absolute inset-0 z-40 bg-black pointer-events-none" style={{ animation: 'cineFromBlack 1600ms ease-out 200ms both' }} />
 
-        <div key={`meta-${currentSlide}`} className="cine-anim absolute right-5 sm:right-10 z-20 text-right" style={{ top: `calc(${BAR_H} + 1.25rem)`, animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 400ms both' }}>
-          <div className="font-serif text-sm sm:text-base text-white/80">Scene {pad(currentSlide + 1)} of {pad(HERO_SLIDES.length)}</div>
-          <div className="mt-1 flex items-center justify-end gap-1.5 text-[11px] sm:text-xs text-[#E9D3A6]"><MapPin className="h-3 w-3" /><span>{activeSlide.location}</span></div>
-          <div className="mt-0.5 font-serif italic text-[11px] sm:text-xs text-white/45">{HERO_COORDS[currentSlide]}</div>
+        {/* Widescreen Letterbox Bars */}
+        <div
+          className="cine-anim absolute top-0 inset-x-0 z-30 bg-black pointer-events-none"
+          style={{ height: BAR_H, animation: 'cineBars 1800ms cubic-bezier(0.7, 0, 0.2, 1) both' }}
+        />
+        <div
+          className="cine-anim absolute bottom-0 inset-x-0 z-30 bg-black pointer-events-none"
+          style={{ height: BAR_H, animation: 'cineBars 1800ms cubic-bezier(0.7, 0, 0.2, 1) both' }}
+        />
+
+        {/* Initial Fade From Black */}
+        <div
+          className="cine-anim absolute inset-0 z-40 bg-black pointer-events-none"
+          style={{ animation: 'cineFromBlack 1600ms ease-out 200ms both' }}
+        />
+
+        {/* Top-Left Tag & Top-Right Scene Marker */}
+        <div
+          key={`meta-${currentSlide}`}
+          className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 flex items-start justify-between"
+          style={{ paddingTop: `calc(${BAR_H} + 1.25rem)` }}
+        >
+          {activeSlide.tag ? (
+            <div className="flex items-center gap-3">
+              <span
+                className="cine-anim block h-px w-10 sm:w-14 origin-left bg-[#DDAA42]"
+                style={{ animation: 'cineRule 1100ms cubic-bezier(0.7, 0, 0.2, 1) 300ms both' }}
+              />
+              <span
+                className="cine-anim text-[11px] sm:text-xs uppercase tracking-[0.25em] text-[#E9D3A6] font-semibold"
+                style={{ animation: 'cineRise 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) 500ms both' }}
+              >
+                {activeSlide.tag}
+              </span>
+            </div>
+          ) : <div />}
+
+          <div
+            className="cine-anim text-right"
+            style={{ animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 400ms both' }}
+          >
+            <div className="font-serif text-xs sm:text-sm text-white/80">
+              Scene {pad(currentSlide + 1)} of {pad(HERO_SLIDES.length)}
+            </div>
+            <div className="mt-0.5 flex items-center justify-end gap-1.5 text-[11px] text-[#E9D3A6]">
+              <MapPin className="h-3 w-3" />
+              <span>{activeSlide.location}</span>
+            </div>
+            <div className="font-serif italic text-[10px] text-white/45">
+              {HERO_COORDS[currentSlide]}
+            </div>
+          </div>
         </div>
 
-        <div className="relative z-20 flex-1 flex flex-col justify-end w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10 pt-28" style={{ paddingBottom: `calc(${BAR_H} + 1.25rem)` }}>
-          <div key={currentSlide} className="max-w-4xl">
-            {activeSlide.tag && (
-              <div className="flex items-center gap-4 mb-5 sm:mb-6">
-                <span className="cine-anim block h-px w-14 sm:w-20 origin-left bg-[#DDAA42]" style={{ animation: 'cineRule 1100ms cubic-bezier(0.7, 0, 0.2, 1) 300ms both' }} />
-                <span className="cine-anim text-sm sm:text-base text-[#E9D3A6]" style={{ animation: 'cineRise 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) 500ms both' }}>{activeSlide.tag}</span>
+        {/* CENTERPIECE: PREMIUM GOLDEN GRADIENT TYPOGRAPHY (NO RED CIRCLE) */}
+        <div className="relative z-20 flex-1 flex flex-col items-center justify-center px-4 text-center my-auto py-6">
+          <div key={currentSlide} className="relative flex flex-col items-center justify-center w-full max-w-5xl mx-auto">
+
+            {/* Subtle Ambient Gold Glow Behind Text for Contrast */}
+            <div
+              aria-hidden
+              className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[320px] h-[180px] sm:w-[520px] sm:h-[240px] rounded-full bg-[#DDAA42]/10 blur-[90px]"
+            />
+
+            {/* Upper Native Script & Kicker with Ornamental Gold Rules */}
+            <div
+              className="cine-anim relative z-10 mb-3 sm:mb-4 flex flex-col items-center"
+              style={{ animation: 'cineRise 1000ms cubic-bezier(0.2, 0.8, 0.2, 1) 450ms both' }}
+            >
+              <div className="flex items-center gap-3 sm:gap-4">
+                <span className="h-px w-8 sm:w-12 bg-gradient-to-r from-transparent to-[#DDAA42]/80" />
+                <span className="text-base sm:text-xl md:text-2xl font-light tracking-[0.28em] text-[#F5E6C8] drop-shadow-[0_4px_12px_rgba(0,0,0,0.75)]">
+                  {activeSlide.nativeScript || activeSlide.title}
+                </span>
+                <span className="h-px w-8 sm:w-12 bg-gradient-to-l from-transparent to-[#DDAA42]/80" />
               </div>
-            )}
-            <h1 aria-label={`${activeSlide.title.trim()} ${activeSlide.titleItalic}`}>
-              <span aria-hidden className="cine-anim block font-serif font-light text-2xl sm:text-4xl lg:text-5xl leading-tight" style={{ animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 450ms both', filter: 'drop-shadow(0 4px 15px rgba(0,0,0,0.5))' }}>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-b from-[#FFF9F2] to-[#E7D0B8] pb-1 -mb-1">{activeSlide.title.trim()}</span>
+              <span className="mt-2 text-[10px] sm:text-xs font-bold uppercase tracking-[0.38em] text-[#E9D3A6]/90">
+                {activeSlide.title.trim()}
               </span>
-              <span aria-hidden className="block font-serif italic font-medium text-[3.5rem] sm:text-8xl md:text-9xl lg:text-[10.5rem] leading-[0.95] tracking-tight mt-1 sm:mt-2" style={{ filter: 'drop-shadow(0 12px 30px rgba(0,0,0,0.5))' }}>
-                {activeSlide.titleItalic.split('').map((ch, i) => (
-                  <span key={i} className="cine-anim inline-block" style={{ animation: `cineLetter 1200ms cubic-bezier(0.2, 0.8, 0.2, 1) ${750 + i * 70}ms both` }}>
-                    <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-[#FFF9F2] via-[#E9D3A6] to-[#DDAA42] pb-2 sm:pb-4 -mb-2 sm:-mb-4">{ch === ' ' ? '\u00A0' : ch}</span>
+            </div>
+
+            {/* Balanced Single-Line Main Title with Top-to-Bottom Golden Gradient */}
+            <h1
+              aria-label={`${activeSlide.title.trim()} ${activeSlide.titleItalic}`}
+              className="relative z-10 font-serif font-semibold uppercase whitespace-nowrap text-[2.35rem] sm:text-[4.25rem] md:text-[5.25rem] lg:text-[6.25rem] leading-[1.02] tracking-[0.1em] sm:tracking-[0.14em] select-none"
+              style={{ filter: 'drop-shadow(0 14px 32px rgba(0,0,0,0.75))' }}
+            >
+              {activeSlide.titleItalic.toUpperCase().split('').map((ch, i) => (
+                <span
+                  key={i}
+                  className="cine-anim inline-block"
+                  style={{
+                    animation: `cineLetter 1200ms cubic-bezier(0.2, 0.8, 0.2, 1) ${650 + i * 65}ms both`,
+                  }}
+                >
+                  <span className="inline-block text-transparent bg-clip-text bg-gradient-to-b from-[#FFFDF9] via-[#F3DCA2] to-[#C48B22] pb-2 -mb-2">
+                    {ch === ' ' ? '\u00A0' : ch}
                   </span>
-                ))}
-              </span>
+                </span>
+              ))}
             </h1>
-            <p className="cine-anim mt-6 sm:mt-8 hidden sm:block max-w-xl text-base sm:text-lg text-white/75 font-light leading-relaxed" style={{ animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 1500ms both' }}>{activeSlide.subtitle}</p>
-            <div className="cine-anim mt-8 sm:mt-10 flex flex-wrap items-center gap-x-8 gap-y-4" style={{ animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 1750ms both' }}>
-              <button type="button" onClick={() => openBooking()} className="px-9 py-3.5 rounded-full bg-[#D95F49] hover:bg-[#C04C37] text-white font-semibold text-sm sm:text-base transition-all duration-300 shadow-[0_0_30px_rgba(217,95,73,0.3)] hover:shadow-[0_0_44px_rgba(217,95,73,0.5)] cursor-pointer">Plan your journey</button>
+
+            {/* Subtitle & Action Buttons */}
+            <p
+              className="cine-anim relative z-10 mt-5 sm:mt-6 max-w-xl text-xs sm:text-base text-white/85 font-light leading-relaxed drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]"
+              style={{ animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 1350ms both' }}
+            >
+              {activeSlide.subtitle}
+            </p>
+
+            <div
+              className="cine-anim relative z-10 mt-7 sm:mt-8 flex flex-wrap items-center justify-center gap-4 sm:gap-5"
+              style={{ animation: 'cineRise 1100ms cubic-bezier(0.2, 0.8, 0.2, 1) 1600ms both' }}
+            >
+              <button
+                type="button"
+                onClick={() => openBooking()}
+                className="px-8 py-3.5 rounded-full bg-gradient-to-b from-[#E5B85B] to-[#C88E26] hover:from-[#F0C76E] hover:to-[#D49A30] text-[#18110D] font-bold text-xs uppercase tracking-[0.2em] transition-all duration-300 shadow-[0_0_30px_rgba(221,170,66,0.35)] hover:shadow-[0_0_44px_rgba(221,170,66,0.6)] cursor-pointer"
+              >
+                Explore
+              </button>
               {activeSlide.tourSlug && (
-                <Link to={activeSlide.tourSlug} className="group inline-flex items-center gap-2 text-sm sm:text-base text-[#FFF9F2] hover:text-[#DDAA42] transition-colors">
+                <Link
+                  to={activeSlide.tourSlug}
+                  className="group inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-black/40 hover:bg-white/15 border border-[#DDAA42]/40 backdrop-blur-md text-xs font-semibold uppercase tracking-[0.15em] text-[#FFF9F2] transition-all"
+                >
                   <span>See this journey</span>
-                  <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
+                  <ArrowRight className="h-4 w-4 text-[#DDAA42] transition-transform group-hover:translate-x-1" />
                 </Link>
               )}
             </div>
           </div>
 
-          <div className="mt-10 sm:mt-14 flex items-end gap-5 sm:gap-10">
-            <div className="flex-1 grid grid-cols-4 gap-2 sm:gap-5">
-              {HERO_SLIDES.map((slide, idx) => {
-                const isActive = idx === currentSlide;
-                const fill = idx < currentSlide ? 100 : isActive ? Math.min(slideProgress, 100) : 0;
-                return (
-                  <button key={idx} type="button" onClick={() => handleSelectSlide(idx)} aria-label={`Go to ${slide.titleItalic}`} aria-current={isActive} className="group text-left cursor-pointer py-2">
-                    <div className="h-[2px] w-full bg-white/20 overflow-hidden">
-                      <div className="h-full bg-[#DDAA42] shadow-[0_0_12px_rgba(221,170,66,0.8)] transition-[width] duration-75 ease-linear" style={{ width: `${fill}%` }} />
+          {/* Left/Right Floating Slide Arrows (Desktop) */}
+          <button
+            type="button"
+            onClick={handlePrevSlide}
+            aria-label="Previous slide"
+            className="hidden md:flex absolute left-6 lg:left-10 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-black/35 hover:bg-[#DDAA42]/20 backdrop-blur-md border border-white/20 hover:border-[#DDAA42]/60 items-center justify-center text-white transition-all cursor-pointer"
+          >
+            <ChevronLeft className="h-5 w-5" />
+          </button>
+          <button
+            type="button"
+            onClick={handleNextSlide}
+            aria-label="Next slide"
+            className="hidden md:flex absolute right-6 lg:right-10 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-black/35 hover:bg-[#DDAA42]/20 backdrop-blur-md border border-white/20 hover:border-[#DDAA42]/60 items-center justify-center text-white transition-all cursor-pointer"
+          >
+            <ChevronRight className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* BOTTOM NAVIGATION: 4 CIRCULAR THUMBNAILS WITH DASHED RINGS & ORBITING DOT */}
+        <div
+          className="relative z-20 w-full max-w-7xl mx-auto px-5 sm:px-8 lg:px-10"
+          style={{ paddingBottom: `calc(${BAR_H} + 1.5rem)` }}
+        >
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-8 pt-4">
+            {HERO_SLIDES.map((slide, idx) => {
+              const isActive = idx === currentSlide;
+              const dotAngle = isActive ? (slideProgress / 100) * 360 - 45 : idx * 65 - 30;
+
+              return (
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => handleSelectSlide(idx)}
+                  aria-label={`Go to ${slide.titleItalic}`}
+                  aria-current={isActive}
+                  className={`group flex items-center gap-3.5 sm:gap-4 text-left cursor-pointer transition-all duration-500 ${
+                    isActive ? 'opacity-100 scale-[1.02]' : 'opacity-65 hover:opacity-100'
+                  }`}
+                >
+                  {/* Circular Thumbnail with Dashed Ring & Orbiting Dot */}
+                  <div className="relative h-14 w-14 sm:h-20 sm:w-20 shrink-0 flex items-center justify-center">
+                    {/* Outer Dashed Ring */}
+                    <div
+                      className={`absolute inset-0 rounded-full border border-dashed transition-colors duration-500 ${
+                        isActive ? 'border-[#DDAA42]' : 'border-white/45 group-hover:border-[#DDAA42]/75'
+                      }`}
+                    />
+
+                    {/* Rotating Container for the Indicator Dot */}
+                    <div
+                      className="absolute inset-0 rounded-full pointer-events-none transition-transform duration-75 ease-linear"
+                      style={{ transform: `rotate(${dotAngle}deg)` }}
+                    >
+                      <span
+                        className={`block h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-gradient-to-b from-[#FFF3D1] to-[#DDAA42] shadow-[0_0_10px_#DDAA42] mx-auto -mt-1.5 transition-transform duration-300 ${
+                          isActive ? 'scale-110' : 'scale-90 opacity-80'
+                        }`}
+                      />
                     </div>
-                    <div className={`mt-3 flex items-baseline gap-2 transition-opacity duration-500 ${isActive ? 'opacity-100' : 'opacity-45 group-hover:opacity-90'}`}>
-                      <span className="font-serif text-xs text-[#DDAA42]">{pad(idx + 1)}</span>
-                      <span className="hidden sm:inline font-serif text-base lg:text-lg text-[#FFF9F2]">{slide.titleItalic}</span>
+
+                    {/* Circular Photo Thumbnail */}
+                    <div className="h-11 w-11 sm:h-16 sm:w-16 rounded-full overflow-hidden border border-white/25 bg-[#1A130F] shadow-lg">
+                      <ImageWithFallback
+                        src={slide.image}
+                        alt={slide.titleItalic}
+                        className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
                     </div>
-                  </button>
-                );
-              })}
-            </div>
-            <div className="flex items-center gap-2.5 pb-1">
-              <button type="button" onClick={handlePrevSlide} aria-label="Previous slide" className="group h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-black/25 hover:bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center transition-colors cursor-pointer"><ChevronLeft className="h-5 w-5 text-[#FFF9F2] transition-transform group-hover:-translate-x-0.5" /></button>
-              <button type="button" onClick={handleNextSlide} aria-label="Next slide" className="group h-11 w-11 sm:h-12 sm:w-12 rounded-full bg-black/25 hover:bg-white/10 backdrop-blur-md border border-white/25 flex items-center justify-center transition-colors cursor-pointer"><ChevronRight className="h-5 w-5 text-[#FFF9F2] transition-transform group-hover:translate-x-0.5" /></button>
-            </div>
+                  </div>
+
+                  {/* Kicker & Bold Destination Title */}
+                  <div className="min-w-0">
+                    <span className="block text-[9px] sm:text-[10px] font-bold uppercase tracking-[0.14em] text-[#E9D3A6]/80 truncate">
+                      {slide.title.trim()} IN
+                    </span>
+                    <span className="block font-serif text-base sm:text-2xl font-semibold text-white tracking-tight leading-tight mt-0.5 truncate group-hover:text-[#DDAA42] transition-colors">
+                      {slide.titleItalic}
+                    </span>
+                  </div>
+                </button>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -611,7 +788,7 @@ export const Home: React.FC = () => {
                   </div>
                   
                   <a href={waLink("Hello Zerihun! I am reaching out to inquire directly about an expedition with Dinq.")} target="_blank" rel="noopener noreferrer" className="h-10 w-10 rounded-full bg-[#1C120C] border border-[#DDAA42]/30 flex items-center justify-center text-[#DDAA42] hover:bg-[#DDAA42] hover:text-[#1C120C] transition-all shadow-sm" title="Direct WhatsApp Line">
-                    <MessageCircle className="h-[18px] w-[18px]" />
+                    <WhatsAppIcon className="h-[18px] w-[18px]" />
                   </a>
                 </div>
               </div>

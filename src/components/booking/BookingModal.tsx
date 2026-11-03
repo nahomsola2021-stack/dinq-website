@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { X, Check, MessageCircle, Send, Calendar, Compass } from 'lucide-react';
+import { X, Check, Send, Calendar, Compass } from 'lucide-react';
+import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import confetti from 'canvas-confetti';
 import { collection, getDocs, addDoc } from 'firebase/firestore';
 import { db } from '../../admin/lib/firebase';
@@ -188,7 +189,7 @@ export const BookingModal: React.FC = () => {
                   rel="noopener noreferrer"
                   className="btn-terracotta !py-2 !px-5 text-xs font-semibold"
                 >
-                  <MessageCircle className="h-3.5 w-3.5" />
+                  <WhatsAppIcon className="h-3.5 w-3.5" />
                   <span>Confirm on WhatsApp Now</span>
                 </a>
                 <button
@@ -348,7 +349,7 @@ export const BookingModal: React.FC = () => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#D95F49] hover:text-[#B54531] transition-colors"
                 >
-                  <MessageCircle className="h-4 w-4" />
+                  <WhatsAppIcon className="h-4 w-4" />
                   <span>Book via WhatsApp Instantly</span>
                 </a>
               </div>

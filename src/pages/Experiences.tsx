@@ -2,10 +2,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Sparkles, ArrowRight, ArrowUpRight, MapPin, MessageCircle, 
+  Sparkles, ArrowRight, ArrowUpRight, MapPin,
   Clock, Compass, Calendar, Check, Camera, Coffee, Flame, HeartHandshake,
   Layers, Sliders, Play, ChevronDown, CheckCircle2, Award
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { PageHero } from '../components/premium/PageHero';
 import { ExploreMore } from '../components/premium/ExploreMore';
 import { CTABand } from '../components/premium/CTABand';
@@ -324,7 +325,7 @@ export const Experiences: React.FC = () => {
                         className="h-11 w-11 rounded-full border border-[#D95F49]/40 text-[#D95F49] hover:bg-[#D95F49] hover:text-white flex items-center justify-center transition-all cursor-pointer"
                         title={`Ask Zerihun about ${exp.title}`}
                       >
-                        <MessageCircle className="h-4.5 w-4.5" />
+                        <WhatsAppIcon className="h-4.5 w-4.5" />
                       </a>
                     </div>
                   </div>

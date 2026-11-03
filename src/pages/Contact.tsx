@@ -5,10 +5,10 @@ import {
   MapPin,
   ShieldCheck,
   Send,
-  MessageCircle,
   CheckCircle,
   ArrowRight
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import confetti from 'canvas-confetti';
 import { ImageWithFallback } from '../components/premium/ImageWithFallback';
 import {
@@ -194,7 +194,7 @@ export const Contact: React.FC = () => {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#302019] text-[#FFF9F2] text-[10px] font-bold tracking-[0.2em] uppercase hover:bg-[#1A130F] transition-all shadow-md"
                     >
-                      <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                      <WhatsAppIcon className="w-4 h-4" />
                       <span>Chat on WhatsApp</span>
                     </a>
                     <button
@@ -326,7 +326,7 @@ export const Contact: React.FC = () => {
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-2 text-[11px] font-bold uppercase tracking-wider text-[#302019] hover:text-[#D95F49] transition-colors group"
                     >
-                      <MessageCircle className="w-4 h-4 text-[#25D366]" />
+                      <WhatsAppIcon className="w-4 h-4" />
                       <span>Chat via WhatsApp</span>
                       <ArrowRight className="w-3.5 h-3.5 opacity-0 -ml-2 group-hover:opacity-100 group-hover:ml-0 transition-all" />
                     </a>

@@ -3,8 +3,9 @@ import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   ArrowLeft, MapPin, Clock, Calendar, Shield, Check, X,
-  MessageCircle, Coffee, Mountain, Users, ChevronRight, Share2, Compass, CheckCircle2
+  Coffee, Mountain, Users, ChevronRight, Share2, Compass, CheckCircle2
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 
 // Import ALL data pools so no expedition is ever "Lost"
 import { TOURS_DATA } from '../data/content/tours';
@@ -401,7 +402,7 @@ export const TourDetails: React.FC = () => {
                   rel="noopener noreferrer"
                   className="w-full py-4 rounded-full bg-transparent hover:bg-white/10 border border-white/20 text-[#FFF9F2] font-bold text-[10px] tracking-[0.2em] uppercase transition-all flex items-center justify-center gap-2.5 cursor-pointer"
                 >
-                  <MessageCircle className="h-4.5 w-4.5 text-[#25D366]" />
+                  <WhatsAppIcon className="h-4.5 w-4.5" />
                   <span>Dispatch WhatsApp</span>
                 </a>
               </div>

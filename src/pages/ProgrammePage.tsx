@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { Compass, ShoppingBag, ArrowRight, ArrowUpRight, MessageCircle } from 'lucide-react';
+import { Compass, ShoppingBag, ArrowRight, ArrowUpRight } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { PageHero } from '../components/premium/PageHero';
 import { RouteFlow } from '../components/premium/RouteFlow';
 import { PromiseBand } from '../components/premium/PromiseBand';
@@ -76,7 +77,7 @@ export const ProgrammePage: React.FC = () => {
               rel="noopener noreferrer"
               className="btn-outline-terracotta"
             >
-              <MessageCircle className="h-4 w-4" />
+              <WhatsAppIcon className="h-4 w-4" />
               <span>Inquire on Glamping Nights</span>
             </a>
           </div>

@@ -8,7 +8,6 @@ import {
   Compass, 
   ArrowUpRight, 
   Quote,
-  MessageCircle,
   CheckCircle2,
   Share2,
   Compass as CompassIcon,
@@ -17,6 +16,7 @@ import {
   ShieldAlert,
   ChevronRight
 } from 'lucide-react';
+import { WhatsAppIcon } from '../components/common/WhatsAppIcon';
 import { ImageWithFallback } from '../components/premium/ImageWithFallback';
 import { ExperienceGrid } from '../components/tours/ExperienceCard';
 import { CTABand } from '../components/premium/CTABand';
@@ -250,7 +250,7 @@ export const DestinationDetail: React.FC = () => {
                     rel="noopener noreferrer"
                     className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-4 rounded-full bg-[#D95F49] hover:bg-[#302019] text-white font-bold text-[11px] tracking-widest uppercase transition-all shadow-[0_12px_24px_rgba(217,95,73,0.22)] cursor-pointer"
                   >
-                    <MessageCircle className="w-4.5 h-4.5" />
+                    <WhatsAppIcon className="w-4.5 h-4.5" />
                     <span>Inquire this Destination</span>
                   </a>
                 </div>

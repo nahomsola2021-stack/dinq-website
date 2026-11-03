@@ -9,7 +9,6 @@ import {
   Sliders,
   ShieldCheck,
   MapPin,
-  MessageCircle,
   Check,
   Quote,
   Plane,

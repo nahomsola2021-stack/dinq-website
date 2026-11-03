@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, MessageCircle, ArrowUpRight } from 'lucide-react';
+import { Phone, Mail, MapPin, ArrowUpRight } from 'lucide-react';
+import { WhatsAppIcon } from '../common/WhatsAppIcon';
 import { FOOTER_SECTIONS } from '../../data/content/navigation';
 import { DINQ_PHONE_DISPLAY, DINQ_EMAIL, DINQ_OFFICE_ADDRESS, waLink } from '../../lib/whatsapp';
 
@@ -49,7 +50,7 @@ export const Footer: React.FC = () => {
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 rounded-full border border-[#C88A2E]/50 bg-[#C88A2E]/10 px-4 py-2 text-xs font-semibold text-[#D4AF7A] hover:bg-[#C88A2E] hover:text-[#0E0D0B] transition-colors"
               >
-                <MessageCircle className="h-3.5 w-3.5" />
+                <WhatsAppIcon className="h-3.5 w-3.5" />
                 <span>Direct WhatsApp Inquiries</span>
                 <ArrowUpRight className="h-3 w-3" />
               </a>
