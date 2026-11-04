@@ -79,6 +79,7 @@ interface ProductItem {
   stockStatus?: 'In Stock' | 'Low Stock' | 'Out of Stock';
   createdAt?: string;
   updatedAt?: string;
+  status?: string;
 }
 
 interface CartItem {
@@ -159,6 +160,7 @@ export const Shop: React.FC = () => {
                 description: dbItem.description || merged[existingIdx].description,
                 createdAt: dbItem.createdAt || merged[existingIdx].createdAt,
                 updatedAt: dbItem.updatedAt || merged[existingIdx].updatedAt,
+                status: dbItem.status || merged[existingIdx].status,
               };
             } else {
               const nextRentPrice = dbItem.rentPrice ? Number(dbItem.rentPrice) : null;
@@ -179,10 +181,11 @@ export const Shop: React.FC = () => {
                 stockStatus: 'In Stock',
                 createdAt: dbItem.createdAt,
                 updatedAt: dbItem.updatedAt,
+                status: dbItem.status,
               } as ProductItem);
             }
           });
-          return merged.filter(p => (p as any).status !== 'Draft');
+          return merged.filter(p => p.status !== 'Draft' && p.status !== 'Deleted');
         });
       } catch (error) {
         console.error("Firebase Sync Error:", error);

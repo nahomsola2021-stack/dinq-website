@@ -1,7 +1,7 @@
 // src/admin/pages/ShopManager.tsx
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, ShoppingBag, Edit3, Trash2, Loader2, Image as ImageIcon, X, UploadCloud, ChevronLeft, ChevronRight } from 'lucide-react';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { db, uploadToCloudinary } from '../lib/firebase';
 import { SHOP_CATEGORIES } from '../../data/content/shop';
 
@@ -67,7 +67,7 @@ export const ShopManager: React.FC = () => {
         return bDate - aDate;
       });
 
-      setProducts(staticProds);
+      setProducts(staticProds.filter(product => product.status !== 'Deleted'));
     } catch (err) {
       console.error("Error syncing shop inventory:", err);
     } finally {
@@ -150,13 +150,21 @@ export const ShopManager: React.FC = () => {
   };
 
   const handleDelete = async (id: string, name: string) => {
-    if (!window.confirm(`Are you sure you want to hide "${name}" from the shop?`)) return;
+    if (!window.confirm(`Are you sure you want to delete "${name}" from the shop?`)) return;
     try {
-      await setDoc(doc(db, 'products', id), { status: 'Draft' }, { merge: true });
-      setProducts(products.map(p => p.id === id ? { ...p, status: 'Draft' } : p));
-      alert("✅ Product hidden from storefront.");
+      const isCatalogProduct = SHOP_CATEGORIES.some(category => category.items.includes(name));
+      if (isCatalogProduct) {
+        await setDoc(doc(db, 'products', id), { status: 'Deleted' }, { merge: true });
+      } else {
+        await deleteDoc(doc(db, 'products', id));
+      }
+
+      setProducts(current => current.filter(product => product.id !== id));
+      setCurrentPage(page => Math.min(page, Math.max(1, Math.ceil((products.length - 1) / ITEMS_PER_PAGE))));
+      alert("✅ Product deleted from the shop.");
     } catch (err) {
-      alert("❌ Failed to update product.");
+      console.error("Failed to delete product:", err);
+      alert("❌ Failed to delete product.");
     }
   };
 
