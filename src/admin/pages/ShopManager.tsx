@@ -61,6 +61,12 @@ export const ShopManager: React.FC = () => {
         }
       });
 
+      staticProds.sort((a, b) => {
+        const aDate = Date.parse(a.createdAt || a.updatedAt || '') || 0;
+        const bDate = Date.parse(b.createdAt || b.updatedAt || '') || 0;
+        return bDate - aDate;
+      });
+
       setProducts(staticProds);
     } catch (err) {
       console.error("Error syncing shop inventory:", err);
@@ -117,19 +123,25 @@ export const ShopManager: React.FC = () => {
     try {
       const slug = formData.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
       const docId = editingProd ? (editingProd.slug || editingProd.id) : slug;
+      const now = new Date().toISOString();
 
       const payload = {
         ...formData,
         price: Number(formData.price),
         rentPrice: Number(formData.rentPrice),
         slug: docId,
-        updatedAt: new Date().toISOString()
+        ...(!editingProd && { createdAt: now }),
+        updatedAt: now
       };
 
       await setDoc(doc(db, 'products', docId), payload, { merge: true });
 
       alert("✅ Product saved and synced to the live storefront!");
       setIsModalOpen(false);
+      if (!editingProd) {
+        setCurrentPage(1);
+        setSearchTerm('');
+      }
       fetchProducts();
     } catch (err) {
       console.error("Failed to save product:", err);

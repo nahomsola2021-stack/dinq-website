@@ -48,10 +48,10 @@ export const AdminLayout: React.FC = () => {
     <div className="min-h-screen bg-slate-50 flex overflow-hidden font-sans text-slate-900">
       
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-slate-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
-        <div className="h-16 flex items-center justify-between px-6 border-b border-slate-100">
-          <span className="font-serif text-xl font-bold tracking-tight text-slate-900">Dinq<span className="text-slate-400 font-sans font-light">OS</span></span>
-          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-slate-400 hover:text-slate-600">
+      <aside className={`fixed inset-y-0 left-0 z-50 w-64 bg-[#241C18] border-r border-[#49362B] transform transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto flex flex-col ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
+        <div className="h-16 flex items-center justify-between px-6 border-b border-[#49362B]">
+          <span className="font-serif text-xl font-bold tracking-tight text-[#FAF7F2]">Dinq<span className="font-sans font-light text-[#DDAA42]">OS</span></span>
+          <button onClick={() => setSidebarOpen(false)} className="lg:hidden text-[#C7B5A7] hover:text-[#DDAA42]">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -59,7 +59,7 @@ export const AdminLayout: React.FC = () => {
         <div className="flex-1 overflow-y-auto py-4 px-3 space-y-6 no-scrollbar">
           {NAV_GROUPS.map((group, idx) => (
             <div key={idx}>
-              <h4 className="px-3 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">{group.title}</h4>
+              <h4 className="px-3 text-xs font-semibold text-[#DDAA42] uppercase tracking-wider mb-2">{group.title}</h4>
               <div className="space-y-0.5">
                 {group.items.map((item) => {
                   if (item.adminOnly && adminData.role !== 'super_admin') return null;
@@ -71,11 +71,11 @@ export const AdminLayout: React.FC = () => {
                       to={item.path}
                       className={`flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                         isActive 
-                          ? 'bg-slate-900 text-white shadow-sm' 
-                          : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                          ? 'bg-[#D95F49] text-white shadow-sm shadow-black/20'
+                          : 'text-[#E7D7CA] hover:bg-[#3A2B23] hover:text-[#DDAA42]'
                       }`}
                     >
-                      <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-slate-400'}`} />
+                      <Icon className={`h-4 w-4 ${isActive ? 'text-white' : 'text-[#C7A58C]'}`} />
                       {item.name}
                     </Link>
                   );
@@ -85,16 +85,16 @@ export const AdminLayout: React.FC = () => {
           ))}
         </div>
 
-        <div className="p-4 border-t border-slate-100">
+        <div className="p-4 border-t border-[#49362B]">
           <div className="flex items-center gap-3 px-3 py-2">
-            <div className="h-8 w-8 rounded-full bg-slate-900 text-white flex items-center justify-center text-xs font-bold uppercase">
+            <div className="h-8 w-8 rounded-full bg-[#DDAA42] text-[#241C18] flex items-center justify-center text-xs font-bold uppercase">
               {adminData?.displayName?.charAt(0) || 'A'}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-900 truncate">{adminData?.displayName || 'Admin User'}</p>
-              <p className="text-xs text-slate-500 truncate capitalize">{adminData?.role?.replace('_', ' ') || 'Admin'}</p>
+              <p className="text-sm font-medium text-[#FAF7F2] truncate">{adminData?.displayName || 'Admin User'}</p>
+              <p className="text-xs text-[#C7B5A7] truncate capitalize">{adminData?.role?.replace('_', ' ') || 'Admin'}</p>
             </div>
-            <button onClick={logout} className="text-slate-400 hover:text-red-500 transition-colors">
+            <button onClick={logout} className="text-[#C7B5A7] hover:text-[#D95F49] transition-colors">
               <LogOut className="h-4 w-4" />
             </button>
           </div>

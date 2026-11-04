@@ -77,6 +77,8 @@ interface ProductItem {
   description: string;
   sizes: string[];
   stockStatus?: 'In Stock' | 'Low Stock' | 'Out of Stock';
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface CartItem {
@@ -155,6 +157,8 @@ export const Shop: React.FC = () => {
                 rentable: dbItem.rentable !== undefined ? Boolean(dbItem.rentable) : Boolean(nextRentPrice),
                 image: dbItem.image || dbItem.coverImage || merged[existingIdx].image,
                 description: dbItem.description || merged[existingIdx].description,
+                createdAt: dbItem.createdAt || merged[existingIdx].createdAt,
+                updatedAt: dbItem.updatedAt || merged[existingIdx].updatedAt,
               };
             } else {
               const nextRentPrice = dbItem.rentPrice ? Number(dbItem.rentPrice) : null;
@@ -173,6 +177,8 @@ export const Shop: React.FC = () => {
                 description: dbItem.description || '',
                 sizes: Array.isArray(dbItem.sizes) && dbItem.sizes.length ? dbItem.sizes : ['Standard'],
                 stockStatus: 'In Stock',
+                createdAt: dbItem.createdAt,
+                updatedAt: dbItem.updatedAt,
               } as ProductItem);
             }
           });
@@ -354,6 +360,12 @@ export const Shop: React.FC = () => {
       sorted.sort((a, b) => Number(a.buyPrice) - Number(b.buyPrice));
     } else if (sortBy === 'price-desc') {
       sorted.sort((a, b) => Number(b.buyPrice) - Number(a.buyPrice));
+    } else {
+      sorted.sort((a, b) => {
+        const aDate = Date.parse(a.createdAt || a.updatedAt || '') || 0;
+        const bDate = Date.parse(b.createdAt || b.updatedAt || '') || 0;
+        return bDate - aDate;
+      });
     }
     return sorted;
   }, [liveProducts, activeFilter, activeCategoryId, acquisitionMode, search, sortBy, inStockOnly]);
