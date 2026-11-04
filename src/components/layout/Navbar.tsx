@@ -27,11 +27,23 @@ export const Navbar: React.FC = () => {
     setActiveDropdown(null);
   }, [location.pathname]);
 
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [mobileMenuOpen]);
+
   const whatsappHref = waLink('Hello Dinq Tour, Travel & Events! I would like to inquire about planning an expedition.');
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+      className={`fixed top-0 left-0 right-0 transition-all duration-300 ${
+        mobileMenuOpen ? 'z-[60]' : 'z-40'
+      } ${
         scrolled
           ? 'glass-dark py-2 sm:py-3 shadow-lg shadow-black/20'
           : 'bg-gradient-to-b from-[#1F1713]/85 to-transparent py-3 sm:py-4'
@@ -163,62 +175,89 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain rounded-b-3xl border border-t-0 border-[#594437] bg-gradient-to-b from-[#2B201A] via-[#211813] to-[#19120F] px-4 pb-6 pt-5 shadow-2xl shadow-black/40 sm:px-6 sm:pb-8 sm:pt-6">
-          <div className="mb-5 border-b border-white/10 px-1 pb-4">
-            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#DDAA42]">Explore Ethiopia</p>
-            <p className="mt-1 font-serif text-2xl text-[#FAF7F2]">Where will you go?</p>
+        <div
+          id="mobile-navigation"
+          role="dialog"
+          aria-modal="true"
+          aria-label="Mobile navigation"
+          className="lg:hidden fixed inset-0 z-[60] h-[100dvh] overflow-y-auto overscroll-contain bg-[#1B1410] px-4 pb-8 pt-[calc(env(safe-area-inset-top)+1rem)] sm:px-6"
+        >
+          <div className="mx-auto flex w-full max-w-2xl items-center justify-between border-b border-white/10 pb-4">
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-3"
+              aria-label="Dinq Tour home"
+            >
+              <img src="/logo.png" alt="" className="h-12 w-12 object-contain" />
+              <span className="font-serif text-lg text-[#FAF7F2]">Dinq Tour</span>
+            </Link>
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/20 bg-white/[0.06] text-[#FAF7F2] transition hover:border-[#DDAA42]/60 hover:text-[#DDAA42] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#DDAA42]"
+              aria-label="Close navigation menu"
+            >
+              <X className="h-6 w-6" />
+            </button>
           </div>
-          <nav aria-label="Mobile navigation" className="space-y-3">
-            {MAIN_NAV.map((item) => (
-              <div key={item.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
-                <Link
-                  to={item.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className={`flex min-h-11 items-center justify-between gap-3 text-base font-semibold transition-colors ${
-                    (item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href))
-                      ? 'text-[#DDAA42]'
-                      : 'text-[#FAF7F2] hover:text-[#DDAA42]'
-                  }`}
-                >
-                  {item.label}
-                  {item.children && <ChevronDown className="h-4 w-4 shrink-0 text-[#D95F49]" aria-hidden="true" />}
-                </Link>
-                {item.children && (
-                  <div className="mt-2 grid grid-cols-1 gap-1 border-t border-white/[0.08] pt-2 min-[420px]:grid-cols-2">
-                    {item.children.map((child) => (
-                      <Link
-                        key={child.label}
-                        to={child.href}
-                        onClick={() => setMobileMenuOpen(false)}
-                        className="flex min-h-10 items-center rounded-xl px-3 text-sm text-[#F5E9DA]/75 transition-colors hover:bg-white/[0.06] hover:text-[#FAF7F2]"
-                      >
-                        {child.label}
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </div>
-            ))}
-            <div className="pt-3 flex flex-col gap-2.5">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  openBooking();
-                }}
-                className="btn-terracotta min-h-12 w-full text-center text-sm font-semibold"
-              >
-                Book an Expedition
-              </button>
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="btn-outline-gold min-h-12 w-full text-center !text-[#FAF7F2] !border-white/20"
-              >
-                Chat on WhatsApp (+251 913 817 153)
-              </a>
+          <div className="mx-auto w-full max-w-2xl">
+            <div className="mb-5 mt-6 border-b border-white/10 px-1 pb-4">
+              <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#DDAA42]">Explore Ethiopia</p>
+              <p className="mt-1 font-serif text-2xl text-[#FAF7F2]">Where will you go?</p>
             </div>
-          </nav>
+            <nav aria-label="Mobile navigation links" className="space-y-3">
+              {MAIN_NAV.map((item) => (
+                <div key={item.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
+                  <Link
+                    to={item.href}
+                    onClick={() => setMobileMenuOpen(false)}
+                    className={`flex min-h-11 items-center justify-between gap-3 text-base font-semibold transition-colors ${
+                      (item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href))
+                        ? 'text-[#DDAA42]'
+                        : 'text-[#FAF7F2] hover:text-[#DDAA42]'
+                    }`}
+                  >
+                    {item.label}
+                    {item.children && <ChevronDown className="h-4 w-4 shrink-0 text-[#D95F49]" aria-hidden="true" />}
+                  </Link>
+                  {item.children && (
+                    <div className="mt-2 grid grid-cols-1 gap-1 border-t border-white/[0.08] pt-2 min-[420px]:grid-cols-2">
+                      {item.children.map((child) => (
+                        <Link
+                          key={child.label}
+                          to={child.href}
+                          onClick={() => setMobileMenuOpen(false)}
+                          className="flex min-h-10 items-center rounded-xl px-3 text-sm text-[#F5E9DA]/75 transition-colors hover:bg-white/[0.06] hover:text-[#FAF7F2]"
+                        >
+                          {child.label}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              ))}
+              <div className="flex flex-col gap-2.5 pb-[max(1rem,env(safe-area-inset-bottom))] pt-5">
+                <button
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    openBooking();
+                  }}
+                  className="btn-terracotta min-h-12 w-full text-center text-sm font-semibold"
+                >
+                  Book an Expedition
+                </button>
+                <a
+                  href={whatsappHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-outline-gold min-h-12 w-full text-center !text-[#FAF7F2] !border-white/20"
+                >
+                  Chat on WhatsApp (+251 913 817 153)
+                </a>
+              </div>
+            </nav>
+          </div>
         </div>
       )}
     </header>
