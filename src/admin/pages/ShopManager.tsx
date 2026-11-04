@@ -152,7 +152,9 @@ export const ShopManager: React.FC = () => {
   const handleDelete = async (id: string, name: string) => {
     if (!window.confirm(`Are you sure you want to delete "${name}" from the shop?`)) return;
     try {
-      const isCatalogProduct = SHOP_CATEGORIES.some(category => category.items.includes(name));
+      const isCatalogProduct = SHOP_CATEGORIES.some(category =>
+        category.items.some((_, index) => id === `${category.id}-${index}`)
+      );
       if (isCatalogProduct) {
         await setDoc(doc(db, 'products', id), { status: 'Deleted' }, { merge: true });
       } else {
@@ -215,7 +217,7 @@ export const ShopManager: React.FC = () => {
         {currentProducts.map((prod) => (
           <div key={prod.id} className="bg-white border border-slate-200 rounded-2xl overflow-hidden shadow-sm flex flex-col justify-between relative">
             {prod.status === 'Draft' && (
-              <div className="absolute inset-0 bg-white/70 backdrop-blur-[2px] z-10 flex flex-col items-center justify-center">
+              <div className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center bg-white/70 backdrop-blur-[2px]">
                 <span className="bg-slate-900 text-white px-3 py-1 rounded font-bold uppercase tracking-widest text-[10px]">Hidden / Draft</span>
               </div>
             )}
@@ -237,14 +239,14 @@ export const ShopManager: React.FC = () => {
                 >
                   <Edit3 className="h-3.5 w-3.5" />
                 </button>
-                {prod.status !== 'Draft' && (
-                  <button 
-                    onClick={() => handleDelete(prod.id, prod.name)}
-                    className="p-1.5 text-rose-400 hover:text-rose-600 bg-rose-50 rounded border border-rose-100 cursor-pointer"
-                  >
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                )}
+                <button
+                  onClick={() => handleDelete(prod.id, prod.name)}
+                  className="p-1.5 text-rose-400 hover:text-rose-600 bg-rose-50 rounded border border-rose-100 cursor-pointer"
+                  title={`Permanently delete ${prod.name}`}
+                  aria-label={`Permanently delete ${prod.name}`}
+                >
+                  <Trash2 className="h-3.5 w-3.5" />
+                </button>
               </div>
             </div>
           </div>
