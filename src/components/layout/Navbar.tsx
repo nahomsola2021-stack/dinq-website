@@ -50,7 +50,7 @@ export const Navbar: React.FC = () => {
               src="/logo.png"
               alt="Dinq Tour and Events"
               className={`object-contain transition-all duration-500 ease-in-out group-hover:scale-[1.03] ${
-                scrolled ? 'h-12 w-12 sm:h-16 sm:w-16' : 'h-20 w-20 sm:h-28 sm:w-28'
+                scrolled ? 'h-14 w-14 sm:h-16 sm:w-16' : 'h-16 w-16 sm:h-28 sm:w-28'
               }`}
             />
           </Link>
@@ -132,17 +132,17 @@ export const Navbar: React.FC = () => {
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Direct WhatsApp Contact"
-              className="hidden sm:inline-flex items-center justify-center h-9 w-9 rounded-full border border-white/15 text-[#DDAA42] hover:border-[#D95F49] hover:text-[#FAF7F2] transition-colors"
+              className="hidden sm:inline-flex items-center justify-center h-11 w-11 rounded-full border border-white/15 text-[#DDAA42] hover:border-[#D95F49] hover:text-[#FAF7F2] transition-colors"
             >
               <WhatsAppIcon className="h-4 w-4" />
             </a>
 
             <button
               onClick={() => openBooking()}
-              className="btn-terracotta !py-2 !px-4 text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap cursor-pointer"
+              className="btn-terracotta !py-3 !px-3 sm:!px-4 text-xs sm:text-sm font-semibold tracking-wide whitespace-nowrap cursor-pointer"
             >
-              <Compass className="h-3.5 w-3.5 inline mr-1" />
-              <span className="sm:hidden">Book</span>
+              <Compass className="h-4 w-4 inline mr-1.5" />
+              <span className="sm:hidden">Plan</span>
               <span className="hidden sm:inline">Book an Expedition</span>
             </button>
 
@@ -150,7 +150,7 @@ export const Navbar: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="lg:hidden p-2 text-[#FAF7F2] hover:text-[#DDAA42] transition-colors"
+              className="lg:hidden inline-flex h-12 w-12 items-center justify-center rounded-2xl border border-white/15 bg-white/[0.06] text-[#FAF7F2] shadow-lg shadow-black/10 transition hover:border-[#DDAA42]/60 hover:bg-white/10 hover:text-[#DDAA42] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#DDAA42]"
               aria-label="Toggle mobile menu"
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-navigation"
@@ -163,25 +163,34 @@ export const Navbar: React.FC = () => {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div id="mobile-navigation" className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain bg-[#1F1713] border-b border-[#3D3028] px-6 py-6 shadow-2xl">
-          <nav className="space-y-3.5">
+        <div id="mobile-navigation" className="lg:hidden absolute inset-x-0 top-full max-h-[calc(100dvh-5rem)] overflow-y-auto overscroll-contain rounded-b-3xl border border-t-0 border-[#594437] bg-gradient-to-b from-[#2B201A] via-[#211813] to-[#19120F] px-4 pb-6 pt-5 shadow-2xl shadow-black/40 sm:px-6 sm:pb-8 sm:pt-6">
+          <div className="mb-5 border-b border-white/10 px-1 pb-4">
+            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#DDAA42]">Explore Ethiopia</p>
+            <p className="mt-1 font-serif text-2xl text-[#FAF7F2]">Where will you go?</p>
+          </div>
+          <nav aria-label="Mobile navigation" className="space-y-3">
             {MAIN_NAV.map((item) => (
-              <div key={item.label} className="border-b border-white/5 pb-2.5">
+              <div key={item.label} className="rounded-2xl border border-white/[0.08] bg-white/[0.035] p-3.5">
                 <Link
                   to={item.href}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="block text-sm font-medium text-[#FAF7F2] hover:text-[#D95F49]"
+                  className={`flex min-h-11 items-center justify-between gap-3 text-base font-semibold transition-colors ${
+                    (item.href === '/' ? location.pathname === '/' : location.pathname.startsWith(item.href))
+                      ? 'text-[#DDAA42]'
+                      : 'text-[#FAF7F2] hover:text-[#DDAA42]'
+                  }`}
                 >
                   {item.label}
+                  {item.children && <ChevronDown className="h-4 w-4 shrink-0 text-[#D95F49]" aria-hidden="true" />}
                 </Link>
                 {item.children && (
-                  <div className="mt-2 space-y-1.5 pl-3 border-l border-[#D95F49]/40">
+                  <div className="mt-2 grid grid-cols-1 gap-1 border-t border-white/[0.08] pt-2 min-[420px]:grid-cols-2">
                     {item.children.map((child) => (
                       <Link
                         key={child.label}
                         to={child.href}
                         onClick={() => setMobileMenuOpen(false)}
-                        className="block py-0.5 text-xs text-[#F5E9DA]/75 hover:text-[#FAF7F2]"
+                        className="flex min-h-10 items-center rounded-xl px-3 text-sm text-[#F5E9DA]/75 transition-colors hover:bg-white/[0.06] hover:text-[#FAF7F2]"
                       >
                         {child.label}
                       </Link>
@@ -196,7 +205,7 @@ export const Navbar: React.FC = () => {
                   setMobileMenuOpen(false);
                   openBooking();
                 }}
-                className="btn-terracotta w-full text-center"
+                className="btn-terracotta min-h-12 w-full text-center text-sm font-semibold"
               >
                 Book an Expedition
               </button>
@@ -204,7 +213,7 @@ export const Navbar: React.FC = () => {
                 href={whatsappHref}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="btn-outline-gold w-full text-center !text-[#FAF7F2] !border-white/20"
+                className="btn-outline-gold min-h-12 w-full text-center !text-[#FAF7F2] !border-white/20"
               >
                 Chat on WhatsApp (+251 913 817 153)
               </a>
