@@ -1,6 +1,6 @@
 // src/admin/layouts/AdminLayout.tsx
 import React, { useState } from 'react';
-import { Link, useLocation, Outlet } from 'react-router-dom';
+import { Link, useLocation, Outlet, Navigate } from 'react-router-dom';
 import { 
   LayoutDashboard, CalendarCheck, Map, MapPin, ShoppingBag, 
   Bell, Search, ExternalLink, Menu, X, LogOut
@@ -35,7 +35,7 @@ export const AdminLayout: React.FC = () => {
   const { adminData, logout } = useAdminAuth();
   const location = useLocation();
 
-  if (!adminData) return <div className="min-h-screen flex items-center justify-center bg-slate-50">Unauthorized Access</div>;
+  if (!adminData) return <Navigate to="/admin/login" replace />;
 
   return (
     <div className="min-h-screen bg-slate-50 flex overflow-hidden font-sans text-slate-900">
@@ -86,8 +86,13 @@ export const AdminLayout: React.FC = () => {
               <p className="text-sm font-medium text-[#FAF7F2] truncate">{adminData?.displayName || 'Admin User'}</p>
               <p className="text-xs text-[#C7B5A7] truncate capitalize">{adminData?.role?.replace('_', ' ') || 'Admin'}</p>
             </div>
-            <button onClick={logout} className="text-[#C7B5A7] hover:text-[#D95F49] transition-colors">
+            <button
+              onClick={logout}
+              className="inline-flex items-center gap-2 rounded-lg px-2 py-2 text-xs font-semibold text-[#C7B5A7] transition-colors hover:bg-[#3A2B23] hover:text-[#D95F49]"
+              title="Sign out"
+            >
               <LogOut className="h-4 w-4" />
+              <span>Sign out</span>
             </button>
           </div>
         </div>

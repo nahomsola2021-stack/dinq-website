@@ -1,7 +1,7 @@
 // src/admin/pages/DestinationsManager.tsx
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, MapPin, Edit3, Trash2, Loader2, Image as ImageIcon, X, UploadCloud, ChevronLeft, ChevronRight } from 'lucide-react';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { db, uploadToCloudinary } from '../lib/firebase';
 import { DESTINATIONS_DATA } from '../../data/content/destinations';
 
@@ -47,7 +47,7 @@ export const DestinationsManager: React.FC = () => {
         }
       });
       
-      setDestinations(merged);
+      setDestinations(merged.filter(destination => !('status' in destination) || destination.status !== 'Deleted'));
     } catch (err) {
       console.error("Error syncing destinations:", err);
     } finally {
@@ -121,14 +121,22 @@ export const DestinationsManager: React.FC = () => {
     }
   };
 
-  const handleDelete = async (id: string) => {
-    if (!window.confirm("Are you sure you want to hide this destination from the live website?")) return;
+  const handleDelete = async (id: string, slug?: string) => {
+    const destination = destinations.find(item => item.id === id);
+    if (!window.confirm(`Permanently delete "${destination?.name || 'this destination'}"? This cannot be undone.`)) return;
     try {
-      await setDoc(doc(db, 'destinations', id), { status: 'Draft' }, { merge: true });
-      setDestinations(destinations.map(d => d.id === id ? { ...d, status: 'Draft' } : d));
-      alert("✅ Destination hidden from public view.");
+      const docId = slug || id;
+      const isBuiltInDestination = DESTINATIONS_DATA.some(item => item.id === id || item.id === docId);
+      if (isBuiltInDestination) {
+        await setDoc(doc(db, 'destinations', docId), { status: 'Deleted', updatedAt: new Date().toISOString() }, { merge: true });
+      } else {
+        await deleteDoc(doc(db, 'destinations', docId));
+      }
+      setDestinations(current => current.filter(item => item.id !== id));
+      alert("✅ Destination permanently deleted.");
     } catch (err) {
-      alert("❌ Failed to update destination.");
+      console.error("Failed to delete destination:", err);
+      alert("❌ Failed to delete destination.");
     }
   };
 
@@ -206,7 +214,7 @@ export const DestinationsManager: React.FC = () => {
                 </button>
                 {dest.status !== 'Draft' && (
                   <button 
-                    onClick={() => handleDelete(dest.id)}
+                    onClick={() => handleDelete(dest.id, dest.slug)}
                     className="p-2 text-rose-400 hover:text-rose-600 bg-rose-50 rounded-lg border border-rose-100 cursor-pointer"
                   >
                     <Trash2 className="h-4 w-4" />

@@ -51,7 +51,7 @@ export const Destinations: React.FC = () => {
               merged.push(dbItem as any);
             }
           });
-          return merged.filter(d => d.status !== 'Draft');
+          return merged.filter(d => d.status !== 'Draft' && d.status !== 'Deleted');
         });
       } catch (error) {
         console.error("Firebase Sync Error on Destinations:", error);

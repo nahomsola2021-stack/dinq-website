@@ -1,7 +1,7 @@
 // src/admin/pages/ToursManager.tsx
 import React, { useState, useEffect } from 'react';
 import { Plus, Search, MapPin, Clock, Edit3, Trash2, Loader2, Image as ImageIcon, X, UploadCloud, ChevronLeft, ChevronRight, Calendar } from 'lucide-react';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, setDoc } from 'firebase/firestore';
 import { db, uploadToCloudinary } from '../lib/firebase';
 import { TOURS_DATA } from '../../data/content/tours';
 
@@ -57,7 +57,7 @@ export const ToursManager: React.FC = () => {
         }
       });
       
-      setTours(merged);
+      setTours(merged.filter(tour => !('status' in tour) || tour.status !== 'Deleted'));
     } catch (err: any) {
       console.error("Error syncing dashboard:", err);
     } finally {
@@ -171,14 +171,21 @@ export const ToursManager: React.FC = () => {
   };
 
   const handleDelete = async (id: string, slug?: string) => {
-    if (!window.confirm("Are you sure you want to hide this tour from the live website?")) return;
+    const tour = tours.find(item => item.id === id);
+    if (!window.confirm(`Permanently delete "${tour?.title || 'this tour'}"? This cannot be undone.`)) return;
     try {
       const docId = slug || id;
-      await setDoc(doc(db, 'tours', docId), { status: 'Draft' }, { merge: true });
-      setTours(tours.map(t => t.id === id ? { ...t, status: 'Draft' } : t));
-      alert("✅ Tour hidden from public view.");
+      const isBuiltInTour = TOURS_DATA.some(item => item.id === id || item.id === docId);
+      if (isBuiltInTour) {
+        await setDoc(doc(db, 'tours', docId), { status: 'Deleted', updatedAt: new Date().toISOString() }, { merge: true });
+      } else {
+        await deleteDoc(doc(db, 'tours', docId));
+      }
+      setTours(current => current.filter(item => item.id !== id));
+      alert("✅ Tour permanently deleted.");
     } catch (err) {
-      alert("❌ Failed to update tour status.");
+      console.error("Failed to delete tour:", err);
+      alert("❌ Failed to delete tour.");
     }
   };
 

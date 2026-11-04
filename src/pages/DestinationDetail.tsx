@@ -24,32 +24,51 @@ import { DESTINATIONS_DATA } from '../data/content/destinations';
 import { TOURS_DATA } from '../data/content/tours';
 import { updatePageMeta } from '../lib/seo';
 import { waLink } from '../lib/whatsapp';
+import { getDeletedCatalogIds } from '../lib/catalog';
 
 export const DestinationDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const heroRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
+  const [deletedCatalogIds, setDeletedCatalogIds] = useState<{ destinations: Set<string>; tours: Set<string> }>({
+    destinations: new Set(),
+    tours: new Set(),
+  });
+
+  useEffect(() => {
+    let active = true;
+    Promise.all([getDeletedCatalogIds('destinations'), getDeletedCatalogIds('tours')])
+      .then(([destinationIds, tourIds]) => {
+        if (active) setDeletedCatalogIds({ destinations: destinationIds, tours: tourIds });
+      })
+      .catch(error => console.error('Failed to sync deleted catalog items:', error));
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   // robust match to bypass any TS type difference or case mismatch (e.g., id vs. slug)
   const destination = useMemo(() => {
     if (!slug) return null;
+    if (deletedCatalogIds.destinations.has(slug)) return null;
     return DESTINATIONS_DATA.find(
       (d) => 
         d.id?.toLowerCase() === slug.toLowerCase() || 
         (d as any).slug?.toLowerCase() === slug.toLowerCase()
     );
-  }, [slug]);
+  }, [slug, deletedCatalogIds.destinations]);
 
   // Dynamically filter actual related live tours targeting this region
   const relatedTours = useMemo(() => {
     if (!destination) return [];
-    return TOURS_DATA.filter((t) => 
+    return TOURS_DATA.filter((t) => !deletedCatalogIds.tours.has(t.id)).filter((t) =>
       t.destination.toLowerCase().includes(destination.name.toLowerCase()) ||
       t.summary.toLowerCase().includes(destination.name.toLowerCase()) ||
       (t as any).routeStops?.some((stop: string) => stop.toLowerCase().includes(destination.name.toLowerCase()))
     ).slice(0, 3);
-  }, [destination]);
+  }, [destination, deletedCatalogIds.tours]);
 
   // Track parallax offsets safely
   useEffect(() => {

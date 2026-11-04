@@ -81,6 +81,10 @@ export const TourDetails: React.FC = () => {
         querySnapshot.forEach(doc => {
           const dbData = doc.data();
           if (doc.id === slug || dbData.slug === slug) {
+            if (dbData.status === 'Deleted') {
+              setTour(null);
+              return;
+            }
             setTour((prev: any) => ({
               ...prev,
               ...dbData,

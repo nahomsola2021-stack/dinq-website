@@ -80,7 +80,7 @@ export const Tours: React.FC = () => {
             }
           });
           
-          return merged.filter(t => (t as any).status !== 'Draft');
+          return merged.filter(t => (t as any).status !== 'Draft' && (t as any).status !== 'Deleted');
         });
       } catch (error) {
         console.error("Firebase Sync Error:", error);

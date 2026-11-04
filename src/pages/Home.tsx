@@ -32,6 +32,7 @@ import { SHOP_CATEGORIES } from '../data/content/shop';
 import { updatePageMeta } from '../lib/seo';
 import { waLink } from '../lib/whatsapp';
 import { useBooking } from '../context/BookingContext';
+import { getDeletedCatalogIds } from '../lib/catalog';
 
 export interface HeroSlide {
   image: string;
@@ -166,6 +167,23 @@ export const Home: React.FC = () => {
   const [slideProgress, setSlideProgress] = useState(0);
   const [activePanel, setActivePanel] = useState<number>(0);
   const [activeModalTour, setActiveModalTour] = useState<TourItem | null>(null);
+  const [deletedTourIds, setDeletedTourIds] = useState<Set<string>>(() => new Set());
+  const [deletedDestinationIds, setDeletedDestinationIds] = useState<Set<string>>(() => new Set());
+
+  useEffect(() => {
+    let active = true;
+    Promise.all([getDeletedCatalogIds('tours'), getDeletedCatalogIds('destinations')])
+      .then(([tourIds, destinationIds]) => {
+        if (!active) return;
+        setDeletedTourIds(tourIds);
+        setDeletedDestinationIds(destinationIds);
+      })
+      .catch(error => console.error('Failed to sync deleted catalog items:', error));
+
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     if (isHeroPaused) return;
@@ -225,8 +243,8 @@ export const Home: React.FC = () => {
     heroRef.current?.style.setProperty('--py', '0');
   };
 
-  const safeTours = TOURS_DATA || [];
-  const safeDestinations = DESTINATIONS_DATA || [];
+  const safeTours = (TOURS_DATA || []).filter(tour => !deletedTourIds.has(tour.id));
+  const safeDestinations = (DESTINATIONS_DATA || []).filter(destination => !deletedDestinationIds.has(destination.id));
   const safeShopCategories = SHOP_CATEGORIES || [];
   const featuredTours = safeTours.filter((t) => t.featured).slice(0, 3);
   
