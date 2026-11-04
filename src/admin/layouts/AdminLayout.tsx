@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useLocation, Outlet } from 'react-router-dom';
 import { 
   LayoutDashboard, CalendarCheck, Map, MapPin, ShoppingBag, 
-  Shield, Settings, Bell, Search, ExternalLink, Menu, X, LogOut
+  Bell, Search, ExternalLink, Menu, X, LogOut
 } from 'lucide-react';
 import { useAdminAuth } from '../context/AdminAuthContext';
 
@@ -26,13 +26,6 @@ const NAV_GROUPS = [
     title: 'Commerce',
     items: [
       { name: 'Shop Management', path: '/admin/shop', icon: ShoppingBag },
-    ]
-  },
-  {
-    title: 'System',
-    items: [
-      { name: 'Users & Permissions', path: '/admin/users', icon: Shield, adminOnly: true },
-      { name: 'Settings', path: '/admin/settings', icon: Settings },
     ]
   }
 ];
@@ -62,7 +55,6 @@ export const AdminLayout: React.FC = () => {
               <h4 className="px-3 text-xs font-semibold text-[#DDAA42] uppercase tracking-wider mb-2">{group.title}</h4>
               <div className="space-y-0.5">
                 {group.items.map((item) => {
-                  if (item.adminOnly && adminData.role !== 'super_admin') return null;
                   const isActive = location.pathname === item.path;
                   const Icon = item.icon;
                   return (

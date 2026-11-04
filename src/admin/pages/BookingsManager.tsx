@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 import { 
   Search, Filter, CalendarCheck, Users, DollarSign, 
   MapPin, Mail, Phone, Clock, CheckCircle2, AlertCircle, 
-  ChevronLeft, FileText, Download, Save, MoreHorizontal, Edit2, Loader2
+  ChevronLeft, FileText, Download, Save, MoreHorizontal, Edit2, Loader2, Trash2
 } from 'lucide-react';
-import { collection, getDocs, doc, setDoc } from 'firebase/firestore';
+import { collection, getDocs, doc, setDoc, deleteDoc } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 // --- TYPES ---
@@ -41,6 +41,7 @@ export const BookingsManager: React.FC = () => {
   // State for the currently selected booking
   const [activeBooking, setActiveBooking] = useState<Booking | null>(null);
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   // --- FETCH LIVE BOOKINGS FROM FIREBASE ---
   useEffect(() => {
@@ -121,6 +122,24 @@ export const BookingsManager: React.FC = () => {
       alert("❌ Failed to save booking updates.");
     } finally {
       setSaving(false);
+    }
+  };
+
+  const handleDeleteBooking = async (booking: Booking) => {
+    if (!window.confirm(`Permanently delete booking ${booking.reference} for ${booking.customerName}? This cannot be undone.`)) return;
+
+    setDeleting(true);
+    try {
+      await deleteDoc(doc(db, 'bookings', booking.id));
+      setBookings(current => current.filter(item => item.id !== booking.id));
+      setActiveBooking(null);
+      setView('list');
+      alert('✅ Booking permanently deleted.');
+    } catch (err) {
+      console.error('Error deleting booking:', err);
+      alert('❌ Failed to delete booking.');
+    } finally {
+      setDeleting(false);
     }
   };
 
@@ -258,13 +277,22 @@ export const BookingsManager: React.FC = () => {
                       </div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <button 
-                        onClick={() => handleViewDetails(booking)}
-                        className="inline-flex items-center justify-center p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
-                        title="View & Edit Booking"
-                      >
-                        <Edit2 className="h-4 w-4" />
-                      </button>
+                      <div className="inline-flex items-center gap-1">
+                        <button
+                          onClick={() => handleViewDetails(booking)}
+                          className="inline-flex items-center justify-center p-2 text-slate-400 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                          title="View & Edit Booking"
+                        >
+                          <Edit2 className="h-4 w-4" />
+                        </button>
+                        <button
+                          onClick={() => handleDeleteBooking(booking)}
+                          className="inline-flex items-center justify-center p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors cursor-pointer"
+                          title="Permanently delete booking"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -316,6 +344,14 @@ export const BookingsManager: React.FC = () => {
         </div>
         
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => handleDeleteBooking(activeBooking)}
+            disabled={deleting}
+            className="inline-flex items-center gap-2 px-3 py-2 border border-rose-200 bg-rose-50 text-rose-700 text-sm font-medium rounded-lg hover:bg-rose-100 transition-colors cursor-pointer disabled:opacity-60"
+          >
+            {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+            <span className="hidden sm:inline">{deleting ? 'Deleting...' : 'Delete'}</span>
+          </button>
           <select
             value={activeBooking.status}
             onChange={(e) => handleStatusChange(e.target.value as BookingStatus)}

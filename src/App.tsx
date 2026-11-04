@@ -155,8 +155,6 @@ export default function App() {
               <Route path="reviews" element={<AdminPlaceholder title="Customer Reviews Moderation" />} />
               <Route path="analytics" element={<AdminPlaceholder title="Analytics & Financial Reports" />} />
               <Route path="migration" element={<AdminMigration />} />
-              <Route path="users" element={<AdminPlaceholder title="Users & Permissions Matrix" />} />
-              <Route path="settings" element={<AdminPlaceholder title="System Settings" />} />
             </Route>
 
             {/* ============================================================

@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Search, Filter, ShoppingBag, Truck, DollarSign, 
   MapPin, Mail, Phone, Calendar, CheckCircle2, AlertCircle, 
-  ChevronLeft, FileText, Download, Save, Package, RefreshCcw
+  ChevronLeft, FileText, Download, Save, Package, RefreshCcw, Trash2, Loader2
 } from 'lucide-react';
+import { collection, deleteDoc, doc, getDocs } from 'firebase/firestore';
+import { db } from '../lib/firebase';
 
 // --- TYPES ---
 type OrderStatus = 'New' | 'Processing' | 'Shipped' | 'Delivered' | 'Cancelled' | 'Refunded';
@@ -38,67 +40,10 @@ interface Order {
   createdAt: string;
 }
 
-// --- MOCK DATA ---
-const MOCK_ORDERS: Order[] = [
-  {
-    id: 'ord-2045',
-    reference: 'DQ-SHP-8891',
-    customerName: 'Michael Chang',
-    email: 'm.chang@example.com',
-    phone: '+1 415 555 0198',
-    shippingAddress: 'Hyatt Regency Addis Ababa, Meskel Square, Addis Ababa, Ethiopia (Deliver to Concierge)',
-    items: [
-      { id: 'i-1', productId: 'p-1', name: '4-Season Alpine Expedition Tent', sku: 'GEAR-TENT-4S', quantity: 1, unitPrice: 18, type: 'Rental', rentalDays: 7, size: '2-Person' },
-      { id: 'i-2', productId: 'p-3', name: 'Carbon Fiber Trekking Poles', sku: 'GEAR-POLE-CF', quantity: 2, unitPrice: 6, type: 'Rental', rentalDays: 7 }
-    ],
-    subtotal: 210,
-    shippingCost: 0,
-    totalPrice: 210,
-    status: 'Processing',
-    paymentStatus: 'Paid',
-    internalNotes: 'Deliver to Hyatt Regency by Nov 10th morning. Guest arriving on ET501.',
-    createdAt: '2026-10-30T10:15:00Z',
-  },
-  {
-    id: 'ord-2044',
-    reference: 'DQ-SHP-8890',
-    customerName: 'Elena Rossi',
-    email: 'elena.rossi@example.it',
-    phone: '+39 333 123 4567',
-    shippingAddress: 'Via Roma 123, 00100 Rome, Italy',
-    items: [
-      { id: 'i-3', productId: 'p-2', name: 'Urban Camping Signature Hoodie', sku: 'APP-UCH-BLK', quantity: 1, unitPrice: 55, type: 'Purchase', size: 'M' },
-      { id: 'i-4', productId: 'p-4', name: 'Enamel Camp Mug', sku: 'ACC-MUG-WHT', quantity: 2, unitPrice: 15, type: 'Purchase' }
-    ],
-    subtotal: 85,
-    shippingCost: 35,
-    totalPrice: 120,
-    status: 'Shipped',
-    paymentStatus: 'Paid',
-    internalNotes: 'Shipped via DHL Express. Tracking: 9481726491',
-    createdAt: '2026-10-28T14:30:00Z',
-  },
-  {
-    id: 'ord-2043',
-    reference: 'DQ-SHP-8889',
-    customerName: 'Tom Baker',
-    email: 'tom.baker@example.co.uk',
-    phone: '+44 7700 900123',
-    shippingAddress: 'Bole International Airport, Terminal 2 Arrivals (Meet & Greet)',
-    items: [
-      { id: 'i-5', productId: 'p-5', name: 'Heavyweight Sleeping Bag (-15C)', sku: 'GEAR-BAG-15', quantity: 1, unitPrice: 12, type: 'Rental', rentalDays: 5 }
-    ],
-    subtotal: 60,
-    shippingCost: 15,
-    totalPrice: 75,
-    status: 'New',
-    paymentStatus: 'Pending Payment',
-    internalNotes: '',
-    createdAt: '2026-10-31T09:00:00Z',
-  }
-];
-
 export const OrdersManager: React.FC = () => {
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [deleting, setDeleting] = useState(false);
   const [view, setView] = useState<'list' | 'detail'>('list');
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<string>('All');
@@ -106,9 +51,81 @@ export const OrdersManager: React.FC = () => {
   // State for the currently selected order
   const [activeOrder, setActiveOrder] = useState<Order | null>(null);
 
+  useEffect(() => {
+    const fetchOrders = async () => {
+      try {
+        const snapshot = await getDocs(collection(db, 'orders'));
+        const fetchedOrders = snapshot.docs.map(orderDoc => {
+          const data = orderDoc.data();
+          const items = Array.isArray(data.items) ? data.items : [];
+          const createdAt = data.createdAt?.toDate
+            ? data.createdAt.toDate().toISOString()
+            : typeof data.createdAt === 'string'
+              ? data.createdAt
+              : new Date(0).toISOString();
+
+          return {
+            id: orderDoc.id,
+            reference: data.reference || data.orderNumber || `DQ-SHP-${orderDoc.id.slice(0, 6).toUpperCase()}`,
+            customerName: data.customerName || data.fullName || 'Unknown Customer',
+            email: data.email || 'No email provided',
+            phone: data.phone || 'No phone provided',
+            shippingAddress: data.shippingAddress || data.address || 'No delivery address provided',
+            items: items.map((item: Partial<OrderItem>, index: number) => ({
+              id: item.id || `${orderDoc.id}-item-${index}`,
+              productId: item.productId || '',
+              name: item.name || 'Shop item',
+              sku: item.sku || '',
+              quantity: Number(item.quantity) || 1,
+              unitPrice: Number(item.unitPrice) || 0,
+              type: item.type === 'Rental' ? 'Rental' : 'Purchase',
+              rentalDays: item.rentalDays,
+              size: item.size,
+            })),
+            subtotal: Number(data.subtotal) || 0,
+            shippingCost: Number(data.shippingCost) || 0,
+            totalPrice: Number(data.totalPrice ?? data.total) || 0,
+            status: (data.status as OrderStatus) || 'New',
+            paymentStatus: (data.paymentStatus as PaymentStatus) || 'Pending Payment',
+            internalNotes: data.internalNotes || '',
+            createdAt,
+          } satisfies Order;
+        });
+
+        fetchedOrders.sort((a, b) => Date.parse(b.createdAt) - Date.parse(a.createdAt));
+        setOrders(fetchedOrders);
+      } catch (error) {
+        console.error('Error fetching orders:', error);
+        alert('❌ Failed to load shop orders.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchOrders();
+  }, []);
+
   const handleViewDetails = (order: Order) => {
     setActiveOrder({ ...order });
     setView('detail');
+  };
+
+  const handleDeleteOrder = async (order: Order) => {
+    if (!window.confirm(`Permanently delete order ${order.reference} for ${order.customerName}? This cannot be undone.`)) return;
+
+    setDeleting(true);
+    try {
+      await deleteDoc(doc(db, 'orders', order.id));
+      setOrders(current => current.filter(item => item.id !== order.id));
+      setActiveOrder(null);
+      setView('list');
+      alert('✅ Order permanently deleted.');
+    } catch (error) {
+      console.error('Error deleting order:', error);
+      alert('❌ Failed to delete order.');
+    } finally {
+      setDeleting(false);
+    }
   };
 
   const handleStatusChange = (newStatus: OrderStatus) => {
@@ -151,9 +168,18 @@ export const OrdersManager: React.FC = () => {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center justify-center h-[60vh] text-slate-500">
+        <Loader2 className="h-8 w-8 animate-spin text-slate-900 mb-4" />
+        <p className="text-sm font-medium">Fetching Shop Orders...</p>
+      </div>
+    );
+  }
+
   // --- LIST VIEW ---
   if (view === 'list') {
-    const filteredOrders = MOCK_ORDERS.filter(o => {
+    const filteredOrders = orders.filter(o => {
       const matchesSearch = o.reference.toLowerCase().includes(search.toLowerCase()) || 
                             o.customerName.toLowerCase().includes(search.toLowerCase());
       const matchesStatus = statusFilter === 'All' || o.status === statusFilter;
@@ -252,12 +278,21 @@ export const OrdersManager: React.FC = () => {
                       <div className="font-medium text-slate-900">${order.totalPrice.toLocaleString()}</div>
                     </td>
                     <td className="px-6 py-4 text-center">
-                      <button 
-                        onClick={() => handleViewDetails(order)}
-                        className="inline-flex items-center justify-center px-3 py-1.5 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors text-xs font-medium"
-                      >
-                        Manage
-                      </button>
+                      <div className="inline-flex items-center justify-center gap-1">
+                        <button
+                          onClick={() => handleViewDetails(order)}
+                          className="inline-flex items-center justify-center px-3 py-1.5 border border-slate-200 text-slate-700 hover:text-slate-900 hover:bg-slate-100 rounded-md transition-colors text-xs font-medium"
+                        >
+                          Manage
+                        </button>
+                        <button
+                          onClick={() => handleDeleteOrder(order)}
+                          className="inline-flex items-center justify-center p-2 text-rose-500 hover:text-rose-700 hover:bg-rose-50 rounded-lg transition-colors"
+                          title="Permanently delete order"
+                        >
+                          <Trash2 className="h-4 w-4" />
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -308,6 +343,14 @@ export const OrdersManager: React.FC = () => {
         </div>
         
         <div className="flex items-center gap-3">
+          <button
+            onClick={() => handleDeleteOrder(activeOrder)}
+            disabled={deleting}
+            className="inline-flex items-center gap-2 px-3 py-2 border border-rose-200 bg-rose-50 text-rose-700 text-sm font-medium rounded-lg hover:bg-rose-100 transition-colors disabled:opacity-60"
+          >
+            {deleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}
+            <span className="hidden sm:inline">{deleting ? 'Deleting...' : 'Delete'}</span>
+          </button>
           <select
             value={activeOrder.status}
             onChange={(e) => handleStatusChange(e.target.value as OrderStatus)}
