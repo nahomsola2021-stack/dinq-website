@@ -33,4 +33,7 @@ export function updatePageMeta(title: string, description: string, path: string 
     document.head.appendChild(canonical);
   }
   canonical.href = url;
+
+  const ogUrl = document.querySelector('meta[property="og:url"]');
+  if (ogUrl) ogUrl.setAttribute('content', url);
 }
