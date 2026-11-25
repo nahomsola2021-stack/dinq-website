@@ -21,7 +21,7 @@ export const FIVE_WAYS: FiveWayItem[] = [
     name: 'North Ethiopia',
     verb: 'Discover History',
     subtitle: 'Ancient civilizations, heritage and sacred landscapes.',
-    image: 'https://images.unsplash.com/photo-1588668214407-6ea9a6d8c272?auto=format&fit=crop&w=1200&q=80',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1791477867/jpjewnxe4nbmpqps1waf.jpg',
     tags: ['Lalibela', 'Gondar', 'Axum', 'Tigray Highlands', 'Historic Churches', 'Monasteries'],
     routeSlug: '/tours?circuit=north',
     summary: 'Explore the roots of Ethiopian history through ancient kingdoms, sacred churches, historic cities, dramatic highlands, and centuries-old cultural traditions. Discover: Lalibela • Gondar • Axum • Tigray Highlands • Historic Churches • Monasteries • Ancient Heritage.',
