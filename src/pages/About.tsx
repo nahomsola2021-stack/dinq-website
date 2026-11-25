@@ -62,7 +62,6 @@ const TEAM_MEMBERS = [
     name: 'Zerihun Alemayehu',
     role: 'Founder & COO',
     bio: 'Tourism Professional • Tour Guide • Journalist • Media & Communication Expert. Over a decade leading complex expeditions across the Simien, Danakil, and Omo basins.',
-    image: 'https://ambaseltourandtravel.com/wp-content/uploads/2023/12/neww.jpg',
     isFounder: true,
   },
   {

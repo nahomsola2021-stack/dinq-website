@@ -16,7 +16,6 @@ export const EXECUTIVE_TEAM: TeamMember[] = [
     name: 'Zerihun Alemayehu',
     role: 'Founder & COO',
     bio: 'The founder of Dinq Tour & Events, Zerihun Alemayehu brings experience in tourism, tour guiding, media, journalism and communication. He leads the company\'s strategic direction, partnerships, destination development and overall operations.',
-    image: 'https://ambaseltourandtravel.com/wp-content/uploads/2023/12/neww.jpg',
     monogram: 'ZA',
   },
   {

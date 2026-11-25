@@ -45,7 +45,6 @@ export const IMAGES = {
   cameraGear: 'https://images.unsplash.com/photo-1516035069371-29a1b244cc32?auto=format&fit=crop&w=800&q=80',
 
   // Team
-  zerihun: 'https://ambaseltourandtravel.com/wp-content/uploads/2023/12/neww.jpg',
   eldana: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80',
   semegn: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80',
 };

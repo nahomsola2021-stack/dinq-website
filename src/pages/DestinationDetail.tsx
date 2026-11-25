@@ -286,12 +286,8 @@ export const DestinationDetail: React.FC = () => {
                     </p>
                     
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full border border-[#DDAA42] overflow-hidden bg-[#1A130F]">
-                        <ImageWithFallback
-                          src="https://ambaseltourandtravel.com/wp-content/uploads/2023/12/neww.jpg"
-                          alt="Founder"
-                          className="h-full w-full object-cover"
-                        />
+                      <div className="h-10 w-10 rounded-full border border-[#DDAA42] overflow-hidden bg-[#1A130F] text-[#DDAA42] flex items-center justify-center font-serif text-xs">
+                        ZA
                       </div>
                       <div>
                         <span className="text-[10px] uppercase tracking-widest text-[#DDAA42] font-bold block leading-tight">

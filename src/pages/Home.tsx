@@ -796,8 +796,12 @@ export const Home: React.FC = () => {
                 
                 <div className="mt-8 flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="h-11 w-11 rounded-full overflow-hidden border-2 border-[#DDAA42]/20">
-                      <ImageWithFallback src={founder.image || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'} alt={founder.name} className="h-full w-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
+                    <div className="h-11 w-11 rounded-full overflow-hidden border-2 border-[#DDAA42]/20 bg-[#1A130F] flex items-center justify-center text-[#DDAA42] font-serif text-xs">
+                      {founder.image ? (
+                        <ImageWithFallback src={founder.image} alt={founder.name} className="h-full w-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" />
+                      ) : (
+                        <span>ZA</span>
+                      )}
                     </div>
                     <div>
                       <h4 className="font-serif text-base text-[#FFF9F2] tracking-wide">{founder.name}</h4>

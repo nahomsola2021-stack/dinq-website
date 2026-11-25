@@ -61,7 +61,7 @@ export const SAFARIS: SafariItem[] = [
     signature: 'The Wild & Cultural Omo Expedition',
     location: 'Lower Omo Valley, South Ethiopia',
     duration: '8–10 Days',
-    image: 'https://ambaseltourandtravel.com/wp-content/uploads/2024/12/photo_5807594854723730140_y.jpg',
+    image: 'https://res.cloudinary.com/dw1ohipim/image/upload/v1791473045/hka0spoib3segge1lnpc.jpg',
     safariType: 'Cultural Safari',
     highlights: [
       'Wildlife viewing & savannah woodland exploration',
