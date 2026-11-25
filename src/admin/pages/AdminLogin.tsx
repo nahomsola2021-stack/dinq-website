@@ -1,32 +1,17 @@
 import React, { useState } from 'react';
-import { useNavigate, Navigate } from 'react-router-dom';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
+import { FirebaseError } from 'firebase/app';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth';
+import { doc, getDoc } from 'firebase/firestore';
 import { Lock, Mail, AlertCircle, ArrowRight, ShieldCheck, Loader2 } from 'lucide-react';
-import { auth } from '../lib/firebase';
-import { useAdminAuth } from '../context/AdminAuthContext';
+import { auth, db } from '../lib/firebase';
 
 export const AdminLogin: React.FC = () => {
   const navigate = useNavigate();
-  const { currentUser, adminData, loading: authLoading } = useAdminAuth();
-  
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
-  // If Firebase is still initializing, show a dark loading state
-  if (authLoading) {
-    return (
-      <div className="min-h-screen bg-[#120D0A] flex items-center justify-center">
-        <Loader2 className="h-8 w-8 text-[#DDAA42] animate-spin" />
-      </div>
-    );
-  }
-
-  // If the user is already authenticated and has a valid admin role, redirect to the dashboard
-  if (currentUser && adminData) {
-    return <Navigate to="/admin" replace />;
-  }
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -34,21 +19,39 @@ export const AdminLogin: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // 1. Authenticate with Firebase
-      await signInWithEmailAndPassword(auth, email, password);
-      // 2. The AdminAuthContext will automatically detect the auth state change,
-      // fetch the user's role from Firestore, and update the context.
-      // We navigate to the dashboard root.
+      const { user } = await signInWithEmailAndPassword(auth, email, password);
+      const adminDoc = await getDoc(doc(db, 'users', user.uid)).catch(async (profileError) => {
+        await signOut(auth);
+        throw profileError;
+      });
+
+      if (!adminDoc.exists()) {
+        await signOut(auth);
+        setError(`Firebase accepted your credentials, but Firestore has no admin profile for UID ${user.uid}. Ask an existing administrator to create users/${user.uid} in Firestore with a valid role and isActive: true.`);
+        return;
+      }
+
+      if (adminDoc.data().isActive !== true) {
+        await signOut(auth);
+        setError('Your admin profile is inactive. Ask an existing administrator to activate this account.');
+        return;
+      }
+
       navigate('/admin');
-    } catch (err: any) {
+    } catch (err) {
       console.error('Login error:', err);
-      // Clean up Firebase error messages for the UI
-      if (err.code === 'auth/invalid-credential' || err.code === 'auth/user-not-found' || err.code === 'auth/wrong-password') {
+      const code = err instanceof FirebaseError ? err.code : '';
+
+      if (code === 'auth/invalid-credential' || code === 'auth/user-not-found' || code === 'auth/wrong-password') {
         setError('Invalid email or password. Please try again.');
-      } else if (err.code === 'auth/too-many-requests') {
+      } else if (code === 'auth/too-many-requests') {
         setError('Too many failed attempts. Please try again later.');
+      } else if (code === 'permission-denied') {
+        setError('Firebase authenticated your account, but Firestore denied access to its admin profile. Check the Firestore rules for users/{uid}.');
+      } else if (err instanceof FirebaseError) {
+        setError(`Firebase sign-in failed (${err.code}). Check the account and Firebase configuration, then try again.`);
       } else {
-        setError('An error occurred during sign in. Please contact support.');
+        setError('An unexpected error occurred during sign in. Please contact support.');
       }
     } finally {
       setIsSubmitting(false);
